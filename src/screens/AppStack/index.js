@@ -1,11 +1,19 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+//Tabs import
+import HomeStack from "./HomeStack";
+import Search from "./Search";
+
+const Tab = createBottomTabNavigator();
 
 const AppStack = () => {
   return (
-    <View>
-      <Text>This is the AppStack</Text>
-    </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Search" component={Search} />
+    </Tab.Navigator>
   );
 };
 
