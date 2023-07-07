@@ -10,7 +10,7 @@ import OnboardingStack from "./src/screens/Onboarding";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const onboard = 0;
+  const onboard = 1;
   return (
     <NavigationContainer>
       <Stack.Navigator>
