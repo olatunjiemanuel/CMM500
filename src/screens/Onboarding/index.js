@@ -23,8 +23,8 @@ const OnboardingStack = () => {
     return <AppStack />;
   }
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator>
+    <NavigationContainer independent={true} headerMode={false}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Onboard1" component={Onboard1} />
         <Stack.Screen name="Onboard2">
           {(props) => (

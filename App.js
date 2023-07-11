@@ -10,10 +10,10 @@ import OnboardingStack from "./src/screens/Onboarding";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const onboard = 1;
+  const onboard = 0;
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {onboard < 1 ? (
           <Stack.Screen name="OnboardingStack" component={OnboardingStack} />
         ) : (
