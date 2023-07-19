@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 
 const AppStack = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="ProfileStack" component={ProfileStack} />
