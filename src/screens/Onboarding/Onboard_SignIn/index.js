@@ -10,7 +10,7 @@ import FormComponent from "../../../components/FormComponent";
 import PageHeader from "../../../components/PageHeader";
 import ButtonComponent from "../../../components/ButtonComponent";
 
-const Onboard2 = ({ navigation, onComplete }) => {
+const Onboard_SignIn = ({ navigation, onComplete }) => {
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPassFocused, setPassFocused] = useState(false);
 
@@ -21,7 +21,7 @@ const Onboard2 = ({ navigation, onComplete }) => {
     <View style={styles.mainCntnr}>
       <View>
         <PageHeader
-          headerText="Welcome to Inventri"
+          headerText="Sign In"
           onPress={() => {
             navigation.goBack();
           }}
@@ -56,7 +56,7 @@ const Onboard2 = ({ navigation, onComplete }) => {
         <ButtonComponent
           bgColour="#008000"
           onPress
-          ButtonText="Create account"
+          ButtonText="Continue   >"
           textColour="#fff"
         />
       </View>
@@ -73,7 +73,7 @@ const Onboard2 = ({ navigation, onComplete }) => {
   );
 };
 
-export default Onboard2;
+export default Onboard_SignIn;
 
 const styles = StyleSheet.create({
   mainCntnr: {

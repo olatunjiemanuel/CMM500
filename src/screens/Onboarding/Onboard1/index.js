@@ -27,7 +27,7 @@ const Onboard1 = ({ navigation }) => {
         <ButtonComponent
           bgColour="#fff"
           onPress={() => {
-            navigation.navigate("Onboard2");
+            navigation.navigate("Onboard_Register");
           }}
           ButtonText="Register"
           textColour="#008000"
@@ -37,7 +37,7 @@ const Onboard1 = ({ navigation }) => {
         <ButtonComponent
           bgColour="#fff"
           onPress={() => {
-            navigation.navigate("Onboard2");
+            navigation.navigate("Onboard_SignIn");
           }}
           ButtonText="Sign In"
           textColour="#008000"

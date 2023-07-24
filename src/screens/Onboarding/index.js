@@ -7,7 +7,10 @@ import AppStack from "../AppStack";
 
 //screen imports
 import Onboard1 from "./Onboard1";
-import Onboard2 from "./Onboard2";
+import Onboard_Register from "./Onboard_Register";
+import Onboard_SignIn from "./Onboard_SignIn";
+import OnboardUser from "./Onboard_User";
+import Onboarding_Company from "./Onboarding_Company";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,11 +29,20 @@ const OnboardingStack = () => {
     <NavigationContainer independent={true} headerMode={false}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Onboard1" component={Onboard1} />
-        <Stack.Screen name="Onboard2">
+        <Stack.Screen name="Onboard_Register">
           {(props) => (
-            <Onboard2 {...props} onComplete={handleOnboardingComplete} />
+            <Onboard_Register
+              {...props}
+              onComplete={handleOnboardingComplete}
+            />
           )}
         </Stack.Screen>
+        <Stack.Screen name="Onboard_SignIn" component={Onboard_SignIn} />
+        <Stack.Screen name="OnboardUser" component={OnboardUser} />
+        <Stack.Screen
+          name="Onboarding_Company"
+          component={Onboarding_Company}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
