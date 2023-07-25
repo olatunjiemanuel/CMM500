@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import React, { useState } from "react";
 
 //component import
