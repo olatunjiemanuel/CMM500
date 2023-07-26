@@ -2,7 +2,15 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 import React from "react";
 
 const FormComponent = (props) => {
-  const { formName, placeHolder, onFocus, borderColor, color } = props;
+  const {
+    formName,
+    placeHolder,
+    onFocus,
+    borderColor,
+    color,
+    value,
+    onChangeText,
+  } = props;
 
   return (
     <View style={[styles.formCntnr, { borderColor: borderColor }]}>
@@ -13,6 +21,8 @@ const FormComponent = (props) => {
         style={styles.textInput}
         placeholder={placeHolder}
         onFocus={onFocus}
+        value={value}
+        onChangeText={onChangeText}
       />
     </View>
   );

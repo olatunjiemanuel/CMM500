@@ -1,6 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import { FontAwesome } from "@expo/vector-icons";
 
 //Tabs import
 import HomeStack from "./HomeStack";
@@ -12,9 +15,60 @@ const Tab = createBottomTabNavigator();
 const AppStack = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="ProfileStack" component={ProfileStack} />
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{
+          tabBarLabelStyle: {
+            color: "grey",
+          },
+          tabBarIcon: ({ focused }) => (
+            <View>
+              <FontAwesome
+                name="home"
+                size={24}
+                color={focused ? "#008000" : "grey"}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          tabBarLabelStyle: {
+            color: "grey",
+          },
+          tabBarIcon: ({ focused }) => (
+            <View>
+              <FontAwesome
+                name="search"
+                size={24}
+                color={focused ? "#008000" : "grey"}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ProfileStack"
+        component={ProfileStack}
+        options={{
+          tabBarLabelStyle: {
+            color: "grey",
+          },
+          tabBarIcon: ({ focused }) => (
+            <View>
+              <FontAwesome
+                name="user"
+                size={24}
+                color={focused ? "#008000" : "grey"}
+              />
+            </View>
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
