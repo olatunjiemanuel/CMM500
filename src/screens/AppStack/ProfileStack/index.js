@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, View, ScrollView } from "react-native";
 import React from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,13 +11,19 @@ import HelpSupport from "../ProfileStack/HelpSupport/index";
 import Accessibility from "../ProfileStack/Accessibility/index";
 import SignOut from "../ProfileStack/SignOut/index";
 
+//component imports
+import ProfileComponent from "../../../components/ProfileComponent/index";
+
 const Stack = createNativeStackNavigator();
 
 const ProfileStack = () => {
   const MainScreen = ({ navigation }) => {
     return (
-      <View>
-        <Text>Main screen first</Text>
+      <ScrollView style={styles.mainCntnr}>
+        <View>
+          <ProfileComponent />
+        </View>
+
         <Button
           title="Go to UserProfile"
           onPress={() => {
@@ -54,7 +60,7 @@ const ProfileStack = () => {
             navigation.navigate("SignOut");
           }}
         />
-      </View>
+      </ScrollView>
     );
   };
 
@@ -75,4 +81,8 @@ const ProfileStack = () => {
 
 export default ProfileStack;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  mainCntnr: {
+    marginHorizontal: 20,
+  },
+});
