@@ -21,7 +21,46 @@ const ProfileStack = () => {
     return (
       <ScrollView style={styles.mainCntnr}>
         <View>
-          <ProfileComponent />
+          <ProfileComponent
+            onPress={() => {
+              navigation.navigate("UserProfile");
+            }}
+          />
+        </View>
+        <View>
+          <ProfileComponent
+            onPress={() => {
+              navigation.navigate("OrgProfile");
+            }}
+          />
+        </View>
+        <View>
+          <ProfileComponent
+            onPress={() => {
+              navigation.navigate("SecurityPage");
+            }}
+          />
+        </View>
+        <View>
+          <ProfileComponent
+            onPress={() => {
+              navigation.navigate("HelpSupport");
+            }}
+          />
+        </View>
+        <View>
+          <ProfileComponent
+            onPress={() => {
+              navigation.navigate("Accessibility");
+            }}
+          />
+        </View>
+        <View>
+          <ProfileComponent
+            onPress={() => {
+              navigation.navigate("SignOut");
+            }}
+          />
         </View>
 
         <Button

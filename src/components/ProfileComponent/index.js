@@ -2,9 +2,10 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const ProfileComponent = () => {
+const ProfileComponent = (props) => {
+  const { onPress } = props;
   return (
-    <TouchableOpacity style={styles.mainCntnr}>
+    <TouchableOpacity style={styles.mainCntnr} onPress={onPress}>
       <View style={styles.iconCntnr}>
         <Text style={styles.iconText}>PC</Text>
       </View>
