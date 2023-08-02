@@ -13,6 +13,7 @@ import SignOut from "../ProfileStack/SignOut/index";
 
 //component imports
 import ProfileComponent from "../../../components/ProfileComponent/index";
+import MediumProfile from "../../../components/MediumProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,42 +26,53 @@ const ProfileStack = () => {
             onPress={() => {
               navigation.navigate("UserProfile");
             }}
+            label="Olatunji Adenuga"
+            navLabel="view profile"
           />
         </View>
-        <View>
+        <View style={styles.orgProfile}>
           <ProfileComponent
             onPress={() => {
               navigation.navigate("OrgProfile");
             }}
+            label="Organization"
+            navLabel="view company profile"
           />
         </View>
-        <View>
-          <ProfileComponent
+        <View style={styles.orgProfile}>
+          <MediumProfile
+            label="My security"
             onPress={() => {
               navigation.navigate("SecurityPage");
             }}
           />
         </View>
-        <View>
-          <ProfileComponent
+        <View style={styles.orgProfile}>
+          <MediumProfile
+            label="Help & Support"
             onPress={() => {
               navigation.navigate("HelpSupport");
             }}
           />
         </View>
-        <View>
-          <ProfileComponent
+        <View style={styles.orgProfile}>
+          <MediumProfile
+            label="Accessibility options"
             onPress={() => {
               navigation.navigate("Accessibility");
             }}
           />
         </View>
-        <View>
-          <ProfileComponent
+        <View style={styles.orgProfile}>
+          <Button
+            title="SignOut"
             onPress={() => {
               navigation.navigate("SignOut");
             }}
           />
+        </View>
+        {/* <View>
+          <MediumProfile label="My security" />
         </View>
 
         <Button
@@ -98,7 +110,7 @@ const ProfileStack = () => {
           onPress={() => {
             navigation.navigate("SignOut");
           }}
-        />
+        /> */}
       </ScrollView>
     );
   };
@@ -123,5 +135,8 @@ export default ProfileStack;
 const styles = StyleSheet.create({
   mainCntnr: {
     marginHorizontal: 20,
+  },
+  orgProfile: {
+    marginTop: 20,
   },
 });

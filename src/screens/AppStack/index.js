@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -9,6 +9,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import HomeStack from "./HomeStack";
 import Search from "./Search";
 import ProfileStack from "./ProfileStack";
+import ItemsScreen from "./ItemsScreen/index";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +35,24 @@ const AppStack = () => {
         }}
       />
       <Tab.Screen
+        name="InvenTri"
+        component={ItemsScreen}
+        options={{
+          tabBarLabelStyle: {
+            color: "grey",
+          },
+          tabBarIcon: ({ focused }) => (
+            <View>
+              <MaterialIcons
+                name="inventory"
+                size={24}
+                color={focused ? "#008000" : "grey"}
+              />
+            </View>
+          ),
+        }}
+      />
+      {/* <Tab.Screen
         name="Search"
         component={Search}
         options={{
@@ -50,7 +69,7 @@ const AppStack = () => {
             </View>
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="ProfileStack"
         component={ProfileStack}

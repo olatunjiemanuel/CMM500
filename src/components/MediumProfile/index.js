@@ -3,7 +3,7 @@ import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const ProfileComponent = (props) => {
-  const { onPress, label, navLabel } = props;
+  const { onPress, label } = props;
   return (
     <TouchableOpacity style={styles.mainCntnr} onPress={onPress}>
       <View style={styles.iconCntnr}>
@@ -11,7 +11,6 @@ const ProfileComponent = (props) => {
       </View>
       <View style={styles.textCntnr}>
         <Text style={styles.text}>{label}</Text>
-        <Text style={styles.text}>{navLabel}</Text>
       </View>
       <View>
         <MaterialIcons name="arrow-forward-ios" size={24} color="#fff" />

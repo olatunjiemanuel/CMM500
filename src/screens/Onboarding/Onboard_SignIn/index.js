@@ -1,14 +1,19 @@
 import { StyleSheet, Text, View, SafeAreaView, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-native";
 import "react-native-url-polyfill/auto";
 import { createClient } from "@supabase/supabase-js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { supabase } from "../../../../supabase-service";
 
-const superbaseUrl = "https://qxtviuohozgpbhksexyj.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4dHZpdW9ob3pncGJoa3NleHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgzMDQzOTUsImV4cCI6MjAwMzg4MDM5NX0.KXrZPsh_3xQAj2MG_9WuaHC2X_L1QyDImrCXTcuN0jM";
+// const superbaseUrl = "https://qxtviuohozgpbhksexyj.supabase.co";
+// const supabaseKey =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4dHZpdW9ob3pncGJoa3NleHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgzMDQzOTUsImV4cCI6MjAwMzg4MDM5NX0.KXrZPsh_3xQAj2MG_9WuaHC2X_L1QyDImrCXTcuN0jM";
 
-const supabase = createClient(superbaseUrl, supabaseKey);
+// const supabase = createClient(superbaseUrl, supabaseKey, {
+//   persistSessions: true,
+//   localStorage: AsyncStorage,
+// });
 
 //screen imports
 import AppStack from "../../AppStack";
@@ -24,6 +29,21 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
   const [emailValue, setEmailValue] = useState(null);
   const [passwordValue, setPasswordValue] = useState(null);
   const [user, setUser] = useState(null);
+  const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    setAuth(supabase.auth.getSession());
+    supabase.auth.onAuthStateChange((_event, session) => {
+      console.log(session);
+      setAuth(session);
+      console.log(session?.user.email);
+    });
+    // console.log("User state updated:", user);
+  }, [user]);
+  // useEffect(() => {
+  //   setUser
+  //   console.log("User state updated:", user);
+  // }, [user]);
 
   const handleOnboardingComplete = () => {
     onComplete();
@@ -46,16 +66,21 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
     // }
     try {
       const session = supabase.auth.getSession();
+      const User = session?.user.email;
+      console.log(User);
+      console.log("Session:", session);
       if (session) {
         // If a user is authenticated, set the user details to the state
-        setUser(session);
-        console.log(user);
+        setUser(session.user);
+        console.log(session.user);
+        // console.log(session.user);
       } else {
         console.log("No active session");
         // If there is no active session, clear the user details from the state
         setUser(null);
       }
     } catch (error) {
+      // console.log(error.message);
       console.error("Error fetching user details", error.message);
     }
   };
@@ -106,6 +131,9 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
           color={isEmailFocused ? "#008000" : null}
           onChangeText={(text) => setEmailValue(text)}
         />
+      </View>
+      <View style={{ borderWidth: 1 }}>
+        <Text>{supabase.auth.getUser().email}</Text>
       </View>
       <View style={styles.passCntnr}>
         <FormComponent
