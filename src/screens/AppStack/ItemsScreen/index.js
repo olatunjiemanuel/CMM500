@@ -5,15 +5,18 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  Image,
+  Modal,
+  Button,
 } from "react-native";
 import React, { useState, useRef } from "react";
 
 // component imports
 import SearchbarComponent from "../../../components/SearchbarComponent";
 import RecentlyDisplayedComponent from "../../../components/RecentlyDisplayedComponent";
+import FloatingButton from "../../../components/FloatingButton/index";
 
 const SearchScreen = () => {
+  const [modalView, setModalView] = useState(false);
   const [searching, setSeaching] = useState(false);
   const [searchText, setSearchText] = useState(null);
   const [mostRecentSearch, setMostRecentSearch] = useState([]);
@@ -25,6 +28,30 @@ const SearchScreen = () => {
   };
   return (
     <View style={styles.mainCntnr}>
+      <Modal visible={modalView}>
+        <View style={{ backgroundColor: "red", flex: 1, marginTop: 40 }}>
+          <Button
+            title="Close"
+            onPress={() => {
+              setModalView(false);
+            }}
+          />
+        </View>
+      </Modal>
+      <View
+        style={{
+          position: "absolute",
+          marginLeft: 250,
+          marginTop: 600,
+          zIndex: 1,
+        }}
+      >
+        <FloatingButton
+          onPress={() => {
+            setModalView(true);
+          }}
+        />
+      </View>
       <View style={styles.searchCntnr}>
         <View>
           <SearchbarComponent
@@ -74,8 +101,12 @@ const SearchScreen = () => {
           </ScrollView>
         </View>
       ) : (
-        <ScrollView style={styles.recommendationCntnr}>
+        <ScrollView style={styles.itemsDisplayCntnr}>
           <View>
+            <Text>No items yet</Text>
+          </View>
+
+          {/* <View>
             <Text style={[styles.recentSearchTxt, { fontSize: 35 }]}>
               Recommendations
             </Text>
@@ -96,7 +127,7 @@ const SearchScreen = () => {
             >
               <Text>Tunji</Text>
             </View>
-          </View>
+          </View> */}
           {/* <View>
             <Image
               style={{ width: 330, height: 150 }}
@@ -109,11 +140,11 @@ const SearchScreen = () => {
               source={require("../../Images/Recommendations/Art.jpg")}
             />
           </View> */}
-          <View>
+          {/* <View>
             <Text style={[styles.recentSearchTxt, { fontSize: 35 }]}>
               Popular on Pinterest
             </Text>
-          </View>
+          </View> */}
         </ScrollView>
       )}
     </View>
@@ -145,7 +176,7 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     color: "grey",
   },
-  recommendationCntnr: {
+  itemsDisplayCntnr: {
     marginTop: 40,
   },
   // imaageCntnr: {
