@@ -7,13 +7,18 @@ import {
   TouchableOpacity,
   Modal,
   Button,
+  Alert,
 } from "react-native";
 import React, { useState, useRef } from "react";
+import { AntDesign } from "@expo/vector-icons";
+import { supabase } from "../../../../supabase-service";
 
 // component imports
 import SearchbarComponent from "../../../components/SearchbarComponent";
 import RecentlyDisplayedComponent from "../../../components/RecentlyDisplayedComponent";
 import FloatingButton from "../../../components/FloatingButton/index";
+import FormComponent from "../../../components/FormComponent/index";
+import ButtonComponent from "../../../components/ButtonComponent";
 
 const SearchScreen = () => {
   const [modalView, setModalView] = useState(false);
@@ -26,16 +31,149 @@ const SearchScreen = () => {
     setMostRecentSearch([searchText, ...mostRecentSearch]);
     setSeaching(false);
   };
+
+  // const test = "Tunji";
+
+  const retrieveData = async () => {
+    try {
+      const { data, error } = await supabase.from("Inventory").select();
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Success");
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+      Alert.alert("Error", error.message);
+    }
+  };
+
+  const addTest = async () => {
+    try {
+      const { error } = await supabase.from("Inventory").insert({
+        // id: 2,
+        Name: "test",
+        Description: "this is first test",
+        Quantity: 9,
+        Amount: 10,
+        Price: 50,
+      });
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Success");
+      }
+    } catch (error) {
+      console.log(error.message);
+      Alert.alert("Error", error.message);
+    }
+  };
   return (
     <View style={styles.mainCntnr}>
-      <Modal visible={modalView}>
-        <View style={{ backgroundColor: "red", flex: 1, marginTop: 40 }}>
-          <Button
-            title="Close"
-            onPress={() => {
-              setModalView(false);
+      <Modal visible={modalView} animationType="slide" transparent={true}>
+        <View style={{ backgroundColor: "rgba(143, 141, 141, 0.8)", flex: 1 }}>
+          <View
+            style={{
+              backgroundColor: "#fff",
+              flex: 1,
+              marginHorizontal: 20,
+              marginVertical: 60,
+              borderRadius: 20,
+              paddingHorizontal: 20,
+              paddingTop: 20,
             }}
-          />
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: 20,
+              }}
+            >
+              <TouchableOpacity>
+                <AntDesign
+                  name="close"
+                  size={24}
+                  color="black"
+                  onPress={() => {
+                    setModalView(false);
+                  }}
+                />
+              </TouchableOpacity>
+              <Text>New item</Text>
+              <TouchableOpacity>
+                <Text>Save</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView>
+              <View>
+                <FormComponent
+                  formName="Item name"
+                  placeHolder="Please enter item name"
+                  //  onFocus
+                  //  borderColor
+                  //  color
+                  //  value
+                  //  onChangeText
+                />
+              </View>
+              <View>
+                <FormComponent
+                  formName="Item description"
+                  placeHolder="Please enter item description"
+                  //  onFocus
+                  //  borderColor
+                  //  color
+                  //  value
+                  //  onChangeText
+                />
+              </View>
+              <View>
+                <FormComponent
+                  formName="Item ID"
+                  placeHolder="Please enter item ID, leave empty if N/A"
+                  //  onFocus
+                  //  borderColor
+                  //  color
+                  //  value
+                  //  onChangeText
+                />
+              </View>
+              <View>
+                <FormComponent
+                  formName="Item quantity"
+                  placeHolder="Please enter item qantity"
+                  //  onFocus
+                  //  borderColor
+                  //  color
+                  //  value
+                  //  onChangeText
+                />
+              </View>
+              <View>
+                <FormComponent
+                  formName="Item price"
+                  placeHolder="Please enter item price"
+                  //  onFocus
+                  //  borderColor
+                  //  color
+                  //  value
+                  //  onChangeText
+                />
+              </View>
+              <Button title="Add Image" />
+              <View style={{ marginHorizontal: 30 }}>
+                <ButtonComponent
+                  bgColour="#008000"
+                  onPress
+                  ButtonText="Save"
+                  textColour="#fff"
+                />
+              </View>
+            </ScrollView>
+          </View>
         </View>
       </Modal>
       <View
@@ -104,6 +242,18 @@ const SearchScreen = () => {
         <ScrollView style={styles.itemsDisplayCntnr}>
           <View>
             <Text>No items yet</Text>
+            <Button
+              title="Run test"
+              onPress={() => {
+                addTest();
+              }}
+            />
+            <Button
+              title="Retrieve test"
+              onPress={() => {
+                retrieveData();
+              }}
+            />
           </View>
 
           {/* <View>
