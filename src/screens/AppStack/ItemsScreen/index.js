@@ -19,6 +19,7 @@ import RecentlyDisplayedComponent from "../../../components/RecentlyDisplayedCom
 import FloatingButton from "../../../components/FloatingButton/index";
 import FormComponent from "../../../components/FormComponent/index";
 import ButtonComponent from "../../../components/ButtonComponent";
+import DisplayInventriComponent from "../../../components/DisplayInventriComponent";
 
 const ItemsScreen = () => {
   const [modalView, setModalView] = useState(false);
@@ -248,6 +249,7 @@ const ItemsScreen = () => {
       ) : (
         <ScrollView style={styles.itemsDisplayCntnr}>
           <View>
+            <DisplayInventriComponent />
             <Text>No items yet</Text>
             <Button
               title="Run test"
