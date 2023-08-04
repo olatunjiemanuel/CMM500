@@ -20,12 +20,18 @@ import FloatingButton from "../../../components/FloatingButton/index";
 import FormComponent from "../../../components/FormComponent/index";
 import ButtonComponent from "../../../components/ButtonComponent";
 
-const SearchScreen = () => {
+const ItemsScreen = () => {
   const [modalView, setModalView] = useState(false);
   const [searching, setSeaching] = useState(false);
   const [searchText, setSearchText] = useState(null);
   const [mostRecentSearch, setMostRecentSearch] = useState([]);
   const inputRef = useRef(null);
+
+  // form states
+  const [itemName, setItemName] = useState(null);
+  const [itemDesc, setItemDesc] = useState(null);
+  const [itemQty, setItemQty] = useState(null);
+  const [itemPrice, setItemPrice] = useState(null);
 
   const handleSubmit = () => {
     setMostRecentSearch([searchText, ...mostRecentSearch]);
@@ -53,15 +59,16 @@ const SearchScreen = () => {
     try {
       const { error } = await supabase.from("Inventory").insert({
         // id: 2,
-        Name: "test",
-        Description: "this is first test",
-        Quantity: 9,
-        Amount: 10,
-        Price: 50,
+        Name: itemName,
+        Description: itemDesc,
+        Quantity: itemQty,
+        Amount: itemPrice,
+        Price: itemPrice,
       });
       if (error) {
         Alert.alert("Error", error.message);
       } else {
+        setModalView(false);
         Alert.alert("Success");
       }
     } catch (error) {
@@ -115,8 +122,8 @@ const SearchScreen = () => {
                   //  onFocus
                   //  borderColor
                   //  color
-                  //  value
-                  //  onChangeText
+                  value={itemName}
+                  onChangeText={(text) => setItemName(text)}
                 />
               </View>
               <View>
@@ -126,8 +133,8 @@ const SearchScreen = () => {
                   //  onFocus
                   //  borderColor
                   //  color
-                  //  value
-                  //  onChangeText
+                  value={itemDesc}
+                  onChangeText={(text) => setItemDesc(text)}
                 />
               </View>
               <View>
@@ -148,8 +155,8 @@ const SearchScreen = () => {
                   //  onFocus
                   //  borderColor
                   //  color
-                  //  value
-                  //  onChangeText
+                  value={itemQty}
+                  onChangeText={(text) => setItemQty(text)}
                 />
               </View>
               <View>
@@ -159,15 +166,15 @@ const SearchScreen = () => {
                   //  onFocus
                   //  borderColor
                   //  color
-                  //  value
-                  //  onChangeText
+                  value={itemPrice}
+                  onChangeText={(text) => setItemPrice(text)}
                 />
               </View>
               <Button title="Add Image" />
               <View style={{ marginHorizontal: 30 }}>
                 <ButtonComponent
                   bgColour="#008000"
-                  onPress
+                  onPress={() => addTest()}
                   ButtonText="Save"
                   textColour="#fff"
                 />
@@ -301,7 +308,7 @@ const SearchScreen = () => {
   );
 };
 
-export default SearchScreen;
+export default ItemsScreen;
 
 const styles = StyleSheet.create({
   mainCntnr: {
