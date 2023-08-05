@@ -2,15 +2,16 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const DisplayInventriComponent = () => {
+const DisplayInventriComponent = (props) => {
+  const { itemName, quantity } = props;
   return (
     <TouchableOpacity style={styles.mainCntnr}>
       <View style={styles.imagCntnr}>
         <Text>Img</Text>
       </View>
       <View style={styles.middle}>
-        <Text>ItemName</Text>
-        <Text style={styles.qtyCntnr}>Quantity: {}</Text>
+        <Text style={styles.nameCntnr}>{itemName}</Text>
+        <Text style={styles.qtyCntnr}>Quantity: {quantity}</Text>
       </View>
       <View>
         <MaterialIcons name="arrow-forward-ios" size={30} color="grey" />
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     borderRadius: 20,
+    marginTop: 10,
   },
   imagCntnr: {
     marginRight: 20,
@@ -38,10 +40,13 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     alignItems: "center",
   },
+  nameCntnr: { width: 300 },
   qtyCntnr: {
     marginTop: 10,
+    width: 100,
   },
   middle: {
     paddingRight: 160,
+    width: 220,
   },
 });

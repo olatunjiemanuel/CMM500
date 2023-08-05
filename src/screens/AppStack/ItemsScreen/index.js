@@ -1,5 +1,4 @@
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -8,8 +7,10 @@ import {
   Modal,
   Button,
   Alert,
+  FlatList,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { supabase } from "../../../../supabase-service";
 
@@ -20,6 +21,7 @@ import FloatingButton from "../../../components/FloatingButton/index";
 import FormComponent from "../../../components/FormComponent/index";
 import ButtonComponent from "../../../components/ButtonComponent";
 import DisplayInventriComponent from "../../../components/DisplayInventriComponent";
+import FlatListFooter from "../../../components/FlatLitstFooter";
 
 const ItemsScreen = () => {
   const [modalView, setModalView] = useState(false);
@@ -27,6 +29,7 @@ const ItemsScreen = () => {
   const [searchText, setSearchText] = useState(null);
   const [mostRecentSearch, setMostRecentSearch] = useState([]);
   const inputRef = useRef(null);
+  const [inventory, setInventory] = useState(null);
 
   // form states
   const [itemName, setItemName] = useState(null);
@@ -39,22 +42,25 @@ const ItemsScreen = () => {
     setSeaching(false);
   };
 
-  // const test = "Tunji";
-
   const retrieveData = async () => {
     try {
       const { data, error } = await supabase.from("Inventory").select();
       if (error) {
         Alert.alert("Error", error.message);
       } else {
-        Alert.alert("Success");
-        console.log(data);
+        // Alert.alert("Success");
+        // console.log(data);
+        setInventory(data);
       }
     } catch (error) {
       console.log(error.message);
       Alert.alert("Error", error.message);
     }
   };
+
+  useEffect(() => {
+    retrieveData();
+  }, []);
 
   const addTest = async () => {
     try {
@@ -115,7 +121,7 @@ const ItemsScreen = () => {
                 <Text>Save</Text>
               </TouchableOpacity>
             </View>
-            <ScrollView>
+            <ScrollView enableOnAndroid={true}>
               <View>
                 <FormComponent
                   formName="Item name"
@@ -175,7 +181,10 @@ const ItemsScreen = () => {
               <View style={{ marginHorizontal: 30 }}>
                 <ButtonComponent
                   bgColour="#008000"
-                  onPress={() => addTest()}
+                  onPress={() => {
+                    addTest();
+                    retrieveData();
+                  }}
                   ButtonText="Save"
                   textColour="#fff"
                 />
@@ -233,7 +242,7 @@ const ItemsScreen = () => {
           <View style={styles.recentSearchTxtContainer}>
             <Text style={styles.recentSearchTxt}>Recently Searched</Text>
           </View>
-          <ScrollView style={styles.recentSearchContainer}>
+          <ScrollView enableOnAndroid style={styles.recentSearchContainer}>
             {mostRecentSearch.map((item) => (
               <RecentlyDisplayedComponent
                 text={item}
@@ -247,64 +256,46 @@ const ItemsScreen = () => {
           </ScrollView>
         </View>
       ) : (
-        <ScrollView style={styles.itemsDisplayCntnr}>
-          <View>
-            <DisplayInventriComponent />
-            <Text>No items yet</Text>
-            <Button
-              title="Run test"
-              onPress={() => {
-                addTest();
-              }}
-            />
-            <Button
-              title="Retrieve test"
-              onPress={() => {
-                retrieveData();
-              }}
-            />
-          </View>
+        <View style={styles.itemsDisplayCntnr}>
+          {inventory ? (
+            <View>
+              <View style={{ paddingVertical: 20 }}>
+                <Text style={{ fontSize: 35, fontWeight: "bold" }}>
+                  Inventory
+                </Text>
+              </View>
 
-          {/* <View>
-            <Text style={[styles.recentSearchTxt, { fontSize: 35 }]}>
-              Recommendations
-            </Text>
-          </View>
-          <View style={styles.imaageCntnr}>
-            <Image
-              style={{ width: 330, height: 150 }}
-              source={require("../../../../assets/Images/technology.jpg")}
-            />
-            <View
-              style={{
-                backgroundColor: "green",
-                width: 330,
-                heigth: 150,
-                position: "absolute",
-                flex: 1,
-              }}
-            >
-              <Text>Tunji</Text>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                // pagingEnabled
+                data={inventory}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <DisplayInventriComponent
+                    itemName={item.Name}
+                    quantity={item.Quantity}
+                  />
+                )}
+                ListFooterComponent={() => <FlatListFooter />}
+              />
+              {/* <DisplayInventriComponent /> */}
+              <Button
+                title="Run test"
+                onPress={() => {
+                  addTest();
+                }}
+              />
+              <Button
+                title="Retrieve test"
+                // onPress={() => {
+                //   retrieveData();
+                // }}
+              />
             </View>
-          </View> */}
-          {/* <View>
-            <Image
-              style={{ width: 330, height: 150 }}
-              source={require("../../Images/Recommendations/Design.jpg")}
-            />
-          </View>
-          <View>
-            <Image
-              style={{ width: 330, height: 150 }}
-              source={require("../../Images/Recommendations/Art.jpg")}
-            />
-          </View> */}
-          {/* <View>
-            <Text style={[styles.recentSearchTxt, { fontSize: 35 }]}>
-              Popular on Pinterest
-            </Text>
-          </View> */}
-        </ScrollView>
+          ) : (
+            <ActivityIndicator size="large" color="#000" />
+          )}
+        </View>
       )}
     </View>
   );
@@ -335,9 +326,8 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     color: "grey",
   },
-  itemsDisplayCntnr: {
-    marginTop: 40,
-  },
+  itemsDisplayCntnr: {},
+  flex: 1,
   // imaageCntnr: {
   //   backgroundColor: "red",
   // },

@@ -42,7 +42,7 @@ export default index;
 
 const styles = StyleSheet.create({
   textInputContainer: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "grey",
     padding: 10,
     flexDirection: "row",
