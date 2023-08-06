@@ -10,6 +10,7 @@ import HomeStack from "./HomeStack";
 import Search from "./Search";
 import ProfileStack from "./ProfileStack";
 import ItemsScreen from "./ItemsScreen/index";
+import InvenTriStack from "./ItemsScreen/InvenTriStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -36,6 +37,24 @@ const AppStack = () => {
       />
       <Tab.Screen
         name="InvenTri"
+        component={InvenTriStack}
+        options={{
+          tabBarLabelStyle: {
+            color: "grey",
+          },
+          tabBarIcon: ({ focused }) => (
+            <View>
+              <FontAwesome
+                name="user"
+                size={24}
+                color={focused ? "#008000" : "grey"}
+              />
+            </View>
+          ),
+        }}
+      />
+      {/* <Tab.Screen
+        name="InvenTri"
         component={ItemsScreen}
         options={{
           tabBarLabelStyle: {
@@ -51,7 +70,7 @@ const AppStack = () => {
             </View>
           ),
         }}
-      />
+      /> */}
       {/* <Tab.Screen
         name="Search"
         component={Search}

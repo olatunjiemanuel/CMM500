@@ -22,6 +22,7 @@ import FormComponent from "../../../components/FormComponent/index";
 import ButtonComponent from "../../../components/ButtonComponent";
 import DisplayInventriComponent from "../../../components/DisplayInventriComponent";
 import FlatListFooter from "../../../components/FlatLitstFooter";
+import { useNavigation } from "@react-navigation/native";
 
 const ItemsScreen = () => {
   const [modalView, setModalView] = useState(false);
@@ -36,6 +37,8 @@ const ItemsScreen = () => {
   const [itemDesc, setItemDesc] = useState(null);
   const [itemQty, setItemQty] = useState(null);
   const [itemPrice, setItemPrice] = useState(null);
+
+  const navigation = useNavigation();
 
   const handleSubmit = () => {
     setMostRecentSearch([searchText, ...mostRecentSearch]);
@@ -313,6 +316,9 @@ const ItemsScreen = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                   <DisplayInventriComponent
+                    onPress={() =>
+                      navigation.navigate("ItemView", { itemId: item.id })
+                    }
                     itemName={item.Name}
                     quantity={item.Quantity}
                   />
