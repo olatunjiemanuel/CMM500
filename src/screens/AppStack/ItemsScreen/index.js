@@ -40,6 +40,27 @@ const ItemsScreen = () => {
   const handleSubmit = () => {
     setMostRecentSearch([searchText, ...mostRecentSearch]);
     setSeaching(false);
+    Search();
+  };
+
+  const Search = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("Inventory")
+        .select()
+        .ilike("Name", `%${searchText}%`);
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        // Alert.alert("Success");
+        console.log(data);
+        setInventory(data);
+        // setInventory(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+      Alert.alert("Error", error.message);
+    }
   };
 
   const retrieveData = async () => {
@@ -287,9 +308,9 @@ const ItemsScreen = () => {
               />
               <Button
                 title="Retrieve test"
-                // onPress={() => {
-                //   retrieveData();
-                // }}
+                onPress={() => {
+                  retrieveData();
+                }}
               />
             </View>
           ) : (
