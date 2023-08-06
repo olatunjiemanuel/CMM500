@@ -13,8 +13,8 @@ const DisplayInventriComponent = (props) => {
         <Text style={styles.nameCntnr}>{itemName}</Text>
         <Text style={styles.qtyCntnr}>Quantity: {quantity}</Text>
       </View>
-      <View>
-        <MaterialIcons name="arrow-forward-ios" size={30} color="grey" />
+      <View style={styles.icontCntnr}>
+        <MaterialIcons name="arrow-forward-ios" size={20} color="grey" />
       </View>
     </TouchableOpacity>
   );

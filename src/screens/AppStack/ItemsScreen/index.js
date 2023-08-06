@@ -280,10 +280,30 @@ const ItemsScreen = () => {
         <View style={styles.itemsDisplayCntnr}>
           {inventory ? (
             <View>
-              <View style={{ paddingVertical: 20 }}>
+              <View
+                style={{
+                  paddingVertical: 20,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
                 <Text style={{ fontSize: 35, fontWeight: "bold" }}>
                   Inventory
                 </Text>
+                <TouchableOpacity
+                  style={{
+                    padding: 5,
+                    borderRadius: 10,
+                    backgroundColor: "#008000",
+                  }}
+                  onPress={() => {
+                    setSearchText(null);
+                    retrieveData();
+                  }}
+                >
+                  <Text style={{ color: "#fff" }}>Clear Filters</Text>
+                </TouchableOpacity>
               </View>
 
               <FlatList
@@ -302,15 +322,9 @@ const ItemsScreen = () => {
               {/* <DisplayInventriComponent /> */}
               <Button
                 title="Run test"
-                onPress={() => {
-                  addTest();
-                }}
-              />
-              <Button
-                title="Retrieve test"
-                onPress={() => {
-                  retrieveData();
-                }}
+                // onPress={() => {
+                //   addTest();
+                // }}
               />
             </View>
           ) : (
