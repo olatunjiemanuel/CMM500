@@ -11,6 +11,7 @@ import { supabase } from "../../../../../supabase-service";
 
 // components import
 import PageHeader from "../../../../components/PageHeader/index";
+import { TouchableOpacity } from "react-native";
 
 const ItemView = ({ navigation }) => {
   const route = useRoute();
@@ -59,14 +60,31 @@ const ItemView = ({ navigation }) => {
 
   return (
     <View style={{ marginTop: 40, paddingHorizontal: 20 }}>
-      <PageHeader
-        headerText={inventory ? inventory[0]?.Name : ""}
-        onPress={() => navigation.goBack()}
-        TextColour="#000"
-      />
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <PageHeader
+          headerText={inventory ? inventory[0]?.Name : ""}
+          onPress={() => navigation.goBack()}
+          TextColour="#000"
+        />
+        <TouchableOpacity>
+          <Text>Edit</Text>
+        </TouchableOpacity>
+      </View>
       {inventory ? (
         <View style={{ paddingHorizontal: 10 }}>
-          <Text>good view</Text>
+          <Text>{inventory[0]?.created_at}</Text>
+          <Text>{inventory[0]?.userEmail}</Text>
+          <Text>{inventory[0]?.Description}</Text>
+          <Text>{inventory[0]?.Quantity}</Text>
+          <Text>{inventory[0]?.Amount}</Text>
+          <Text>{inventory[0]?.Price}</Text>
+          <Text>{inventory[0]?.ImageUrl}</Text>
         </View>
       ) : (
         Loading()
