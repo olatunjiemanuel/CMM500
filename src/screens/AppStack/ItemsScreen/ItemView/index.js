@@ -9,6 +9,9 @@ import React, { useState, useEffect } from "react";
 import { useRoute } from "@react-navigation/native";
 import { supabase } from "../../../../../supabase-service";
 
+// components import
+import PageHeader from "../../../../components/PageHeader/index";
+
 const ItemView = ({ navigation }) => {
   const route = useRoute();
   const itemId = route.params?.itemId;
@@ -28,6 +31,7 @@ const ItemView = ({ navigation }) => {
         // Alert.alert("Success");
         // console.log(data);
         setInventory(data);
+        console.log(inventory);
         // setInventory(data);
       }
     } catch (error) {
@@ -48,11 +52,20 @@ const ItemView = ({ navigation }) => {
     retrievInventory();
   }, []);
 
+  useEffect(() => {
+    console.log(inventory);
+    // console.log(inventory[0]);
+  }, [inventory]);
+
   return (
-    <View style={{ marginTop: 40 }}>
+    <View style={{ marginTop: 40, paddingHorizontal: 20 }}>
+      <PageHeader
+        headerText={inventory ? inventory[0]?.Name : ""}
+        onPress={() => navigation.goBack()}
+        TextColour="#000"
+      />
       {inventory ? (
-        <View>
-          <Button title="Go back" onPress={() => navigation.goBack()} />
+        <View style={{ paddingHorizontal: 10 }}>
           <Text>good view</Text>
         </View>
       ) : (

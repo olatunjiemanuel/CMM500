@@ -44,8 +44,8 @@ const AppStack = () => {
           },
           tabBarIcon: ({ focused }) => (
             <View>
-              <FontAwesome
-                name="user"
+              <MaterialIcons
+                name="inventory"
                 size={24}
                 color={focused ? "#008000" : "grey"}
               />
