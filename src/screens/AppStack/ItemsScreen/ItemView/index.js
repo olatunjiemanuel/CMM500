@@ -25,6 +25,10 @@ const ItemView = ({ navigation }) => {
   const [inventory, setInventory] = useState(null);
   const [deleteModal, setDeleteModalVisible] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [Name, setName] = useState(null);
+  const [Description, setDescription] = useState(null);
+  const [Quantity, setQuantity] = useState(null);
+  const [Price, setPrice] = useState(null);
 
   //   console.log(itemId);
 
@@ -67,6 +71,29 @@ const ItemView = ({ navigation }) => {
     }
   };
 
+  const SaveEdit = async () => {
+    try {
+      const { error } = await supabase
+        .from("Inventory")
+        .update({
+          Name: Name,
+          Description: Description,
+          Quantity: Quantity,
+          Price: Price,
+        })
+        .eq("id", inventory[0]?.id);
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Item deleted");
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.log(error.message);
+      Alert.alert("Error", error.message);
+    }
+  };
+
   const Loading = () => {
     return (
       <View>
@@ -82,6 +109,19 @@ const ItemView = ({ navigation }) => {
   useEffect(() => {
     console.log(inventory);
     // console.log(inventory[0]);
+  }, [inventory]);
+
+  const getEditData = () => {
+    if (inventory) {
+      setName(inventory[0]?.Name);
+      setDescription(inventory[0]?.Description);
+      setQuantity(String(inventory[0]?.Quantity));
+      setPrice(String(inventory[0]?.Price));
+    }
+  };
+
+  useEffect(() => {
+    getEditData();
   }, [inventory]);
 
   return (
@@ -133,16 +173,40 @@ const ItemView = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={styles.formsCntnr}>
-              <FormComponent formName="Name" />
+              <FormComponent
+                formName="Name"
+                value={Name}
+                onChangeText={(text) => {
+                  setName(text);
+                }}
+              />
             </View>
             <View style={styles.formsCntnr}>
-              <FormComponent formName="Description" />
+              <FormComponent
+                formName="Description"
+                value={Description}
+                onChangeText={(text) => {
+                  setDescription(text);
+                }}
+              />
             </View>
             <View style={styles.formsCntnr}>
-              <FormComponent formName="Quantity" />
+              <FormComponent
+                formName="Quantity"
+                value={Quantity}
+                onChangeText={(text) => {
+                  setQuantity(text);
+                }}
+              />
             </View>
             <View style={styles.formsCntnr}>
-              <FormComponent formName="Price" />
+              <FormComponent
+                formName="Price"
+                value={Price}
+                onChangeText={(text) => {
+                  setPrice(text);
+                }}
+              />
             </View>
             <View style={{ marginTop: 60 }}>
               <ButtonComponent
@@ -169,7 +233,8 @@ const ItemView = ({ navigation }) => {
         <TouchableOpacity
           style={styles.editButton}
           onPress={() => {
-            setEditModal();
+            getEditData();
+            setEditModal(true);
           }}
         >
           <Text style={styles.editButtonText}>Edit item</Text>
@@ -314,7 +379,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   editModalTitleText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "700",
   },
   formsCntnr: {
