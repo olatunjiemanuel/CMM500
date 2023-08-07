@@ -386,9 +386,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
-  //   closeBtnCntnr: {
-  //     alignSelf: "flex-end",
-  //   },
+  closeBtnCntnr: {
+    alignSelf: "flex-end",
+  },
   modalTxtCntnr: {
     marginTop: 10,
     textAlign: "center",
