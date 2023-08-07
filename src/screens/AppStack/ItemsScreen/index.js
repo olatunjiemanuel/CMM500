@@ -10,7 +10,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useIsFocused } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { supabase } from "../../../../supabase-service";
 
@@ -22,7 +22,7 @@ import FormComponent from "../../../components/FormComponent/index";
 import ButtonComponent from "../../../components/ButtonComponent";
 import DisplayInventriComponent from "../../../components/DisplayInventriComponent";
 import FlatListFooter from "../../../components/FlatLitstFooter";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 const ItemsScreen = () => {
   const [modalView, setModalView] = useState(false);
@@ -39,6 +39,12 @@ const ItemsScreen = () => {
   const [itemPrice, setItemPrice] = useState(null);
 
   const navigation = useNavigation();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      retrieveData();
+    }, [])
+  );
 
   const handleSubmit = () => {
     setMostRecentSearch([searchText, ...mostRecentSearch]);
