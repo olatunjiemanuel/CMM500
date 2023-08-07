@@ -7,6 +7,7 @@ import {
   Platform,
   ActivityIndicator,
   Modal,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useRoute } from "@react-navigation/native";
@@ -15,13 +16,15 @@ import { AntDesign } from "@expo/vector-icons";
 
 // components import
 import PageHeader from "../../../../components/PageHeader/index";
-import { TouchableOpacity } from "react-native";
+import FormComponent from "../../../../components/FormComponent";
+import ButtonComponent from "../../../../components/ButtonComponent";
 
 const ItemView = ({ navigation }) => {
   const route = useRoute();
   const itemId = route.params?.itemId;
   const [inventory, setInventory] = useState(null);
   const [deleteModal, setDeleteModalVisible] = useState(false);
+  const [editModal, setEditModal] = useState(false);
 
   //   console.log(itemId);
 
@@ -112,6 +115,45 @@ const ItemView = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+
+      <Modal visible={editModal} transparent animationType="slide">
+        <View style={styles.modalCntnr}>
+          <View style={styles.editModalSubCntnr}>
+            <View style={styles.editModalTitleCntnr}>
+              <Text style={styles.editModalTitleText}>Edit Item</Text>
+              <TouchableOpacity style={styles.closeBtnCntnr}>
+                <AntDesign
+                  name="close"
+                  size={24}
+                  color="black"
+                  onPress={() => {
+                    setEditModal(false);
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.formsCntnr}>
+              <FormComponent formName="Name" />
+            </View>
+            <View style={styles.formsCntnr}>
+              <FormComponent formName="Description" />
+            </View>
+            <View style={styles.formsCntnr}>
+              <FormComponent formName="Quantity" />
+            </View>
+            <View style={styles.formsCntnr}>
+              <FormComponent formName="Price" />
+            </View>
+            <View style={{ marginTop: 60 }}>
+              <ButtonComponent
+                bgColour="#008000"
+                ButtonText="Save"
+                textColour="#fff"
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View
         style={{
           flexDirection: "row",
@@ -124,8 +166,13 @@ const ItemView = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           TextColour="#000"
         />
-        <TouchableOpacity style={styles.editButton}>
-          <Text style={styles.editButtonText}>Edit</Text>
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => {
+            setEditModal();
+          }}
+        >
+          <Text style={styles.editButtonText}>Edit item</Text>
         </TouchableOpacity>
       </View>
       {inventory ? (
@@ -253,9 +300,30 @@ const styles = StyleSheet.create({
     marginVertical: 300,
     padding: 20,
   },
-  closeBtnCntnr: {
-    alignSelf: "flex-end",
+  editModalSubCntnr: {
+    backgroundColor: "#fff",
+    marginHorizontal: 20,
+    borderRadius: 10,
+    marginVertical: 50,
+    padding: 20,
   },
+  editModalTitleCntnr: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  editModalTitleText: {
+    fontSize: 24,
+    fontWeight: "700",
+  },
+  formsCntnr: {
+    marginTop: 20,
+  },
+
+  //   closeBtnCntnr: {
+  //     alignSelf: "flex-end",
+  //   },
   modalTxtCntnr: {
     marginTop: 10,
     textAlign: "center",
