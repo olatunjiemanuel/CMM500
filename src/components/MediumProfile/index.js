@@ -3,17 +3,17 @@ import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const ProfileComponent = (props) => {
-  const { onPress, label } = props;
+  const { onPress, label, icon } = props;
   return (
     <TouchableOpacity style={styles.mainCntnr} onPress={onPress}>
       <View style={styles.iconCntnr}>
-        <Text style={styles.iconText}>PC</Text>
+        <Text style={styles.iconText}>{icon}</Text>
       </View>
       <View style={styles.textCntnr}>
         <Text style={styles.text}>{label}</Text>
       </View>
       <View>
-        <MaterialIcons name="arrow-forward-ios" size={24} color="#fff" />
+        <MaterialIcons name="arrow-forward-ios" size={15} color="#008000" />
       </View>
     </TouchableOpacity>
   );
@@ -23,26 +23,27 @@ export default ProfileComponent;
 
 const styles = StyleSheet.create({
   mainCntnr: {
-    backgroundColor: "#008000",
+    backgroundColor: "#fff",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 10,
+    paddingHorizontal: 20,
     alignItems: "center",
     borderRadius: 10,
   },
-  iconCntnr: {
-    borderWidth: 1,
-    // width: 20,
-    // height: 20,
-    borderRadius: 30,
-    borderColor: "#fff",
-  },
+  // iconCntnr: {
+  //   borderWidth: 1,
+  //   // width: 20,
+  //   // height: 20,
+  //   borderRadius: 30,
+  //   borderColor: "#fff",
+  // },
   iconText: {
-    padding: 20,
-    color: "#fff",
+    paddingVertical: 20,
+    color: "#000",
   },
-  textCntnr: {},
+  // textCntnr: { backgroundColor: "red" },
   text: {
-    color: "#fff",
+    color: "#000",
+    fontWeight: "500",
   },
 });

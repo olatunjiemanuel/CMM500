@@ -3,18 +3,16 @@ import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const ProfileComponent = (props) => {
-  const { onPress, label, navLabel } = props;
+  const { onPress, label, navLabel, icon } = props;
   return (
     <TouchableOpacity style={styles.mainCntnr} onPress={onPress}>
-      <View style={styles.iconCntnr}>
-        <Text style={styles.iconText}>PC</Text>
-      </View>
+      <View style={styles.iconCntnr}>{icon}</View>
       <View style={styles.textCntnr}>
         <Text style={styles.text}>{label}</Text>
-        <Text style={styles.text}>{navLabel}</Text>
+        <Text style={[styles.text, { marginTop: 10 }]}>{navLabel}</Text>
       </View>
-      <View>
-        <MaterialIcons name="arrow-forward-ios" size={24} color="#fff" />
+      <View style={styles.arrowCntnr}>
+        <MaterialIcons name="arrow-forward-ios" size={15} color="#008000" />
       </View>
     </TouchableOpacity>
   );
@@ -24,26 +22,31 @@ export default ProfileComponent;
 
 const styles = StyleSheet.create({
   mainCntnr: {
-    backgroundColor: "#008000",
+    backgroundColor: "#fff",
     flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 10,
+    paddingHorizontal: 20,
     alignItems: "center",
     borderRadius: 10,
+    justifyContent: "space-between",
   },
   iconCntnr: {
-    borderWidth: 1,
+    // borderWidth: 1,
     // width: 20,
     // height: 20,
-    borderRadius: 30,
-    borderColor: "#fff",
+    // borderRadius: 30,
+    // borderColor: "#fff",
   },
   iconText: {
     padding: 20,
-    color: "#fff",
+    color: "#008000",
   },
-  textCntnr: {},
+  textCntnr: {
+    // justifyContent: "space-between",
+    paddingVertical: 20,
+    wdith: 50,
+  },
   text: {
-    color: "#fff",
+    color: "#000",
+    fontWeight: "500",
   },
 });

@@ -90,7 +90,8 @@ const AppStack = () => {
         }}
       /> */}
       <Tab.Screen
-        name="ProfileStack"
+        screenOptions={{ headerShown: false }}
+        name="Profile"
         component={ProfileStack}
         options={{
           tabBarLabelStyle: {

@@ -44,7 +44,7 @@ const ItemView = ({ navigation }) => {
         // Alert.alert("Success");
         // console.log(data);
         setInventory(data);
-        console.log(inventory);
+        // console.log(inventory);
         // setInventory(data);
       }
     } catch (error) {
@@ -85,7 +85,8 @@ const ItemView = ({ navigation }) => {
       if (error) {
         Alert.alert("Error", error.message);
       } else {
-        Alert.alert("Item deleted");
+        Alert.alert("Item Edited Successfully");
+        setEditModal(false);
         navigation.goBack();
       }
     } catch (error) {
@@ -107,7 +108,7 @@ const ItemView = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    console.log(inventory);
+    // console.log(inventory);
     // console.log(inventory[0]);
   }, [inventory]);
 
@@ -213,6 +214,9 @@ const ItemView = ({ navigation }) => {
                 bgColour="#008000"
                 ButtonText="Save"
                 textColour="#fff"
+                onPress={() => {
+                  SaveEdit();
+                }}
               />
             </View>
           </View>
