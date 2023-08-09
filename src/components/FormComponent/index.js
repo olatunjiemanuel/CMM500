@@ -10,6 +10,7 @@ const FormComponent = (props) => {
     color,
     value,
     onChangeText,
+    secureTextEntry,
   } = props;
 
   return (
@@ -23,6 +24,7 @@ const FormComponent = (props) => {
         onFocus={onFocus}
         value={value}
         onChangeText={onChangeText}
+        secureTextEntry={secureTextEntry}
       />
     </View>
   );

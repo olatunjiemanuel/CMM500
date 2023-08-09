@@ -3,12 +3,18 @@ import React from "react";
 
 const FlatListFooter = () => {
   return (
-    <View style={{ marginBottom: 300 }}>
-      <Text>FlatListFooter</Text>
+    <View style={styles.footerCntnr}>
+      <Text>No more items to show</Text>
     </View>
   );
 };
 
 export default FlatListFooter;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  footerCntnr: {
+    marginTop: 30,
+    marginBottom: 300,
+    alignItems: "center",
+  },
+});

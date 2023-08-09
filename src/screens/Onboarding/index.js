@@ -37,7 +37,13 @@ const OnboardingStack = () => {
             />
           )}
         </Stack.Screen>
-        <Stack.Screen name="Onboard_SignIn" component={Onboard_SignIn} />
+        {/* <Stack.Screen name="Onboard_SignIn" component={Onboard_SignIn} /> */}
+        <Stack.Screen name="Onboard_SignIn">
+          {(props) => (
+            <Onboard_SignIn {...props} onComplete={handleOnboardingComplete} />
+          )}
+        </Stack.Screen>
+
         <Stack.Screen name="OnboardUser" component={OnboardUser} />
         <Stack.Screen
           name="Onboarding_Company"

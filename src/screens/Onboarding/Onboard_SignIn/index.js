@@ -5,6 +5,8 @@ import "react-native-url-polyfill/auto";
 import { createClient } from "@supabase/supabase-js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { supabase } from "../../../../supabase-service";
+import { useNavigation } from "@react-navigation/native";
+import { useUser } from "../../../../UserContext";
 
 // const superbaseUrl = "https://qxtviuohozgpbhksexyj.supabase.co";
 // const supabaseKey =
@@ -30,6 +32,9 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
   const [passwordValue, setPasswordValue] = useState(null);
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState(false);
+  const [email, setEmail] = useState(null);
+
+  const { setUserEmail } = useUser();
 
   useEffect(() => {
     setAuth(supabase.auth.getSession());
@@ -37,9 +42,11 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
       console.log(session);
       setAuth(session);
       console.log(session?.user.email);
+      setEmail(session?.user?.email);
+      setUserEmail(session?.user.email);
     });
     // console.log("User state updated:", user);
-  }, [user]);
+  }, []);
   // useEffect(() => {
   //   setUser
   //   console.log("User state updated:", user);
@@ -72,7 +79,7 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
       if (session) {
         // If a user is authenticated, set the user details to the state
         setUser(session.user);
-        console.log(session.user);
+        console.log(session?.user.email);
         // console.log(session.user);
       } else {
         console.log("No active session");
@@ -82,6 +89,19 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
     } catch (error) {
       // console.log(error.message);
       console.error("Error fetching user details", error.message);
+    }
+  };
+
+  const SignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Success Logout");
+      }
+    } catch (error) {
+      console.error(error.message);
     }
   };
 
@@ -100,6 +120,8 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
         Alert.alert("Error", error.message);
       } else {
         Alert.alert("Success");
+        console.log(user);
+        handleOnboardingComplete();
       }
     } catch (error) {
       console.log(error.message);
@@ -132,11 +154,12 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
           onChangeText={(text) => setEmailValue(text)}
         />
       </View>
-      <View style={{ borderWidth: 1 }}>
-        <Text>{supabase.auth.getUser().email}</Text>
-      </View>
+      {/* <View style={{ borderWidth: 1 }}>
+        <Text>{email}</Text>
+      </View> */}
       <View style={styles.passCntnr}>
         <FormComponent
+          secureTextEntry={true}
           value={passwordValue}
           formName="Password"
           placeHolder="Create a password"
@@ -167,6 +190,12 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
       </View>
       <Button title="Got to AppStack" onPress={handleOnboardingComplete} />
       <Button title="show user details" onPress={getUserDetails} />
+      <Button
+        title="SignOut"
+        onPress={() => {
+          SignOut();
+        }}
+      />
     </View>
   );
 };

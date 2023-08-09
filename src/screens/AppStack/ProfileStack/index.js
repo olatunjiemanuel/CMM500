@@ -1,11 +1,4 @@
-import {
-  Button,
-  StyleSheet,
-  View,
-  ScrollView,
-  Platform,
-  Text,
-} from "react-native";
+import { Button, StyleSheet, View, Platform, Text, Alert } from "react-native";
 import React from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -28,10 +21,24 @@ import { TouchableOpacity } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { supabase } from "../../../../supabase-service";
 
 const Stack = createNativeStackNavigator();
 
 const ProfileStack = () => {
+  const SignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Success Logout");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   const MainScreen = ({ navigation }) => {
     return (
       <View style={styles.mainCntnr}>
@@ -94,6 +101,9 @@ const ProfileStack = () => {
           />
         </View>
         <TouchableOpacity
+          onPress={() => {
+            SignOut();
+          }}
           style={styles.signOutBtnCntnr}
           // onPress={() => {
           //      navigation.navigate("SignOut");

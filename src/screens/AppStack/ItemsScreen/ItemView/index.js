@@ -13,6 +13,7 @@ import React, { useState, useEffect } from "react";
 import { useRoute } from "@react-navigation/native";
 import { supabase } from "../../../../../supabase-service";
 import { AntDesign } from "@expo/vector-icons";
+import { useUser } from "../../../../../UserContext";
 
 // components import
 import PageHeader from "../../../../components/PageHeader/index";
@@ -29,6 +30,7 @@ const ItemView = ({ navigation }) => {
   const [Description, setDescription] = useState(null);
   const [Quantity, setQuantity] = useState(null);
   const [Price, setPrice] = useState(null);
+  const { userEmail } = useUser();
 
   //   console.log(itemId);
 
@@ -77,6 +79,7 @@ const ItemView = ({ navigation }) => {
         .from("Inventory")
         .update({
           Name: Name,
+          userEmail: userEmail,
           Description: Description,
           Quantity: Quantity,
           Price: Price,

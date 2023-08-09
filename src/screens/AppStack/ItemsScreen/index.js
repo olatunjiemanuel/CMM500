@@ -13,6 +13,7 @@ import {
 import React, { useState, useRef, useEffect, useIsFocused } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { supabase } from "../../../../supabase-service";
+import { useUser } from "../../../../UserContext";
 
 // component imports
 import SearchbarComponent from "../../../components/SearchbarComponent";
@@ -31,6 +32,7 @@ const ItemsScreen = () => {
   const [mostRecentSearch, setMostRecentSearch] = useState([]);
   const inputRef = useRef(null);
   const [inventory, setInventory] = useState(null);
+  const { userEmail } = useUser();
 
   // form states
   const [itemName, setItemName] = useState(null);
@@ -57,6 +59,7 @@ const ItemsScreen = () => {
       const { data, error } = await supabase
         .from("Inventory")
         .select()
+        .eq("userEmail", userEmail)
         .ilike("Name", `%${searchText}%`);
       if (error) {
         Alert.alert("Error", error.message);
@@ -74,7 +77,11 @@ const ItemsScreen = () => {
 
   const retrieveData = async () => {
     try {
-      const { data, error } = await supabase.from("Inventory").select();
+      const { data, error } = await supabase
+        .from("Inventory")
+        .select()
+        .eq("userEmail", userEmail)
+        .order("created_at", { ascending: false });
       if (error) {
         Alert.alert("Error", error.message);
       } else {
@@ -101,12 +108,14 @@ const ItemsScreen = () => {
         Quantity: itemQty,
         Amount: itemPrice,
         Price: itemPrice,
+        userEmail: userEmail,
       });
       if (error) {
         Alert.alert("Error", error.message);
       } else {
         setModalView(false);
         Alert.alert("Success");
+        retrieveData();
       }
     } catch (error) {
       console.log(error.message);
