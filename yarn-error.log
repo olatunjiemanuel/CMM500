@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/olatunji/.nvm/versions/node/v14.21.3/bin/node /opt/homebrew/bin/yarnpkg add @react-native-async-storage/async-storage@1.17.11
+  /Users/olatunji/.nvm/versions/node/v14.21.3/bin/node /opt/homebrew/bin/yarnpkg add expo-camera@~13.2.1
 
 PATH: 
   /Users/olatunji/Desktop/Code/CMM500/node_modules/.bin:/Users/olatunji/.nvm/versions/node/v14.21.3/bin:/Users/olatunji/Library/Android/sdk/tools/bin:/Users/olatunji/Library/Android/sdk/tools:/Users/olatunji/Library/Android/sdk/platform-tools:/Users/olatunji/Library/Android/sdk/emulator:/Users/olatunji/Library/Android/sdk/platform-tools:/opt/homebrew/opt/node@16/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/olatunji/Desktop/Code/CMM500/node_modules/boolbase/README.md'
+  Error: EACCES: permission denied, unlink '/Users/olatunji/Desktop/Code/CMM500/node_modules/boolbase/package.json'
 
 npm manifest: 
   {
@@ -28,7 +28,7 @@ npm manifest:
       "web": "expo start --web"
     },
     "dependencies": {
-      "@react-native-async-storage/async-storage": "^1.19.1",
+      "@react-native-async-storage/async-storage": "1.17.11",
       "@react-navigation/bottom-tabs": "^6.5.8",
       "@react-navigation/native": "^6.1.7",
       "@react-navigation/native-stack": "^6.9.13",
@@ -1703,10 +1703,10 @@ Lockfile:
       mkdirp "^1.0.4"
       rimraf "^3.0.2"
   
-  "@react-native-async-storage/async-storage@^1.19.1":
-    version "1.19.1"
-    resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.19.1.tgz#09d35caaa31823b40fdfeebf95decf8f992a6274"
-    integrity sha512-5QXuGCtB+HL3VtKL2JN3+6t4qh8VXizK+aGDAv6Dqiq3MLrzgZHb4tjVgtEWMd8CcDtD/JqaAI1b6/EaYGtFIA==
+  "@react-native-async-storage/async-storage@1.17.11":
+    version "1.17.11"
+    resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.17.11.tgz#7ec329c1b9f610e344602e806b04d7c928a2341d"
+    integrity sha512-bzs45n5HNcDq6mxXnSsOHysZWn1SbbebNxldBXCQs8dSvF8Aor9KCdpm+TpnnGweK3R6diqsT8lFhX77VX0NFw==
     dependencies:
       merge-options "^3.0.4"
   

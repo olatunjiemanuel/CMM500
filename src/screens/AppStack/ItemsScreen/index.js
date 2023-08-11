@@ -10,10 +10,11 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import React, { useState, useRef, useEffect, useIsFocused } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { supabase } from "../../../../supabase-service";
 import { useUser } from "../../../../UserContext";
+import { Camera } from "expo-camera";
 
 // component imports
 import SearchbarComponent from "../../../components/SearchbarComponent";
@@ -25,11 +26,16 @@ import DisplayInventriComponent from "../../../components/DisplayInventriCompone
 import FlatListFooter from "../../../components/FlatLitstFooter";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 const ItemsScreen = () => {
   const [modalView, setModalView] = useState(false);
+  const [cameraModal, setCameraModal] = useState(false);
   const [searching, setSeaching] = useState(false);
   const [searchText, setSearchText] = useState(null);
   const [mostRecentSearch, setMostRecentSearch] = useState([]);
+  const [hasPermission, setHasPermission] = useState("granted");
+  const [type, setType] = useState(Camera.Constants.Type.back);
   const inputRef = useRef(null);
   const [inventory, setInventory] = useState(null);
   const { userEmail } = useUser();
@@ -41,6 +47,44 @@ const ItemsScreen = () => {
   const [itemPrice, setItemPrice] = useState(null);
 
   const navigation = useNavigation();
+
+  // camrea reference
+  const cameraRef = useRef(null);
+
+  // Camera function
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  if (hasPermission === null) {
+    return <View></View>;
+  }
+  if (hasPermission === false) {
+    return (
+      <View>
+        <Text>No Access to Camera</Text>
+      </View>
+    );
+  }
+
+  const takePhoto = async () => {
+    if (cameraRef) {
+      console.log("taking picture");
+      try {
+        let picture = await cameraRef.current.takePictureAsync({
+          allowsEditing: true,
+          aspect: [4, 3],
+          quanlity: 1,
+        });
+        return picture;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -216,7 +260,13 @@ const ItemsScreen = () => {
                   onChangeText={(text) => setItemPrice(text)}
                 />
               </View>
-              <Button title="Add Image" />
+              <Button
+                title="Add Image"
+                onPress={() => {
+                  setModalView(false);
+                  setCameraModal(true);
+                }}
+              />
               <View style={{ marginHorizontal: 30 }}>
                 <ButtonComponent
                   bgColour="#008000"
@@ -229,6 +279,72 @@ const ItemsScreen = () => {
                 />
               </View>
             </ScrollView>
+          </View>
+        </View>
+      </Modal>
+      <Modal visible={cameraModal} animationType="slide" transparent={true}>
+        <View style={{ backgroundColor: "rgba(143, 141, 141, 0.8)", flex: 1 }}>
+          <View
+            style={{
+              backgroundColor: "#fff",
+              flex: 1,
+              // marginHorizontal: 20,
+              marginVertical: Platform.OS === "android" ? 30 : 60,
+              borderRadius: 20,
+              paddingHorizontal: 20,
+              paddingTop: 20,
+            }}
+          >
+            <TouchableOpacity style={{ marginLeft: 300, marginBottom: 10 }}>
+              <AntDesign
+                name="close"
+                size={24}
+                color="#000"
+                onPress={() => {
+                  setCameraModal(false);
+                  setModalView(true);
+                }}
+              />
+            </TouchableOpacity>
+            <Camera type={type} style={styles.camera} ref={cameraRef}></Camera>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 15,
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{ backgroundColor: "#fff" }}
+                onPress={() => {
+                  setType(
+                    type === Camera.Constants.Type.back
+                      ? Camera.Constants.Type.front
+                      : Camera.Constants.Type.back
+                  );
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="camera-flip-outline"
+                  size={30}
+                  color="grey"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: 30,
+                  backgroundColor: "grey",
+                  marginLeft: 20,
+                }}
+                onPress={async () => {
+                  const photo = await takePhoto();
+                  Alert.alert("photo taken", JSON.stringify(photo));
+                }}
+              ></TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -387,4 +503,7 @@ const styles = StyleSheet.create({
   // imaageCntnr: {
   //   backgroundColor: "red",
   // },
+  camera: {
+    height: 550,
+  },
 });
