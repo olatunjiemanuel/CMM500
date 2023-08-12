@@ -55,7 +55,7 @@ const ProfileStack = () => {
             onPress={() => {
               navigation.navigate("UserProfile");
             }}
-            label="Olatunji Adenuga"
+            label="User profile"
             navLabel="view profile"
           />
         </View>

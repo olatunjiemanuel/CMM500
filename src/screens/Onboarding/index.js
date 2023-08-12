@@ -45,10 +45,18 @@ const OnboardingStack = () => {
         </Stack.Screen>
 
         <Stack.Screen name="OnboardUser" component={OnboardUser} />
-        <Stack.Screen
+        <Stack.Screen name="Onboarding_Company">
+          {(props) => (
+            <Onboarding_Company
+              {...props}
+              onComplete={handleOnboardingComplete}
+            />
+          )}
+        </Stack.Screen>
+        {/* <Stack.Screen
           name="Onboarding_Company"
           component={Onboarding_Company}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

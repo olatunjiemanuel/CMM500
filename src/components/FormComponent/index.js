@@ -11,6 +11,7 @@ const FormComponent = (props) => {
     value,
     onChangeText,
     secureTextEntry,
+    editable,
   } = props;
 
   return (
@@ -19,6 +20,7 @@ const FormComponent = (props) => {
         <Text style={[{ color: color }]}>{formName}</Text>
       </View>
       <TextInput
+        editable={editable}
         style={styles.textInput}
         placeholder={placeHolder}
         onFocus={onFocus}
