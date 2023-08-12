@@ -7,6 +7,7 @@ import {
   Modal,
   Button,
   Alert,
+  Image,
   FlatList,
   ActivityIndicator,
 } from "react-native";
@@ -27,9 +28,11 @@ import FlatListFooter from "../../../components/FlatLitstFooter";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 const ItemsScreen = () => {
   const [modalView, setModalView] = useState(false);
+  const [inventoryPhoto, setInventoryPhoto] = useState(null);
   const [cameraModal, setCameraModal] = useState(false);
   const [searching, setSeaching] = useState(false);
   const [searchText, setSearchText] = useState(null);
@@ -260,13 +263,38 @@ const ItemsScreen = () => {
                   onChangeText={(text) => setItemPrice(text)}
                 />
               </View>
-              <Button
-                title="Add Image"
-                onPress={() => {
-                  setModalView(false);
-                  setCameraModal(true);
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 20,
+                  marginBottom: 20,
+                  backgroundColor: "grey",
+                  padding: 5,
+                  borderRadius: 10,
                 }}
-              />
+              >
+                {inventoryPhoto ? (
+                  <View>
+                    <Image
+                      source={{ uri: inventoryPhoto }}
+                      style={{ width: 100, height: 100 }}
+                    />
+                  </View>
+                ) : null}
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalView(false);
+                    setCameraModal(true);
+                  }}
+                  style={{ alignItems: "center", marginLeft: 10 }}
+                >
+                  <Feather name="camera" size={24} color="#fff" />
+                  <Text style={{ color: "#fff" }}>Add image</Text>
+                </TouchableOpacity>
+              </View>
+
               <View style={{ marginHorizontal: 30 }}>
                 <ButtonComponent
                   bgColour="#008000"
@@ -341,7 +369,12 @@ const ItemsScreen = () => {
                 }}
                 onPress={async () => {
                   const photo = await takePhoto();
-                  Alert.alert("photo taken", JSON.stringify(photo));
+                  if (!photo.cancelled) {
+                    setInventoryPhoto(photo.uri);
+                  }
+                  setCameraModal(false);
+                  setModalView(true);
+                  // Alert.alert("photo taken", JSON.stringify(photo));
                 }}
               ></TouchableOpacity>
             </View>
