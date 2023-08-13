@@ -28,58 +28,91 @@ import { supabase } from "../../../../supabase-service";
 const Stack = createNativeStackNavigator();
 
 const ProfileStack = () => {
-  const [userData, setUserData] = useState(null);
-  const isFocused = useIsFocused();
-  const { userEmail } = useUser();
+  // const [userData, setUserData] = useState(null);
+  // const isFocused = useIsFocused();
+  // const { userEmail } = useUser();
 
-  useEffect(() => {
-    if (isFocused) {
-      retrieveUserData();
-    }
-  }, [isFocused]);
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     retrieveUserData();
+  //   }
+  // }, [isFocused]);
 
-  const SignOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        Alert.alert("Error", error.message);
-      } else {
-        Alert.alert("Success Logout");
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-  useEffect(() => {
-    retrieveUserData();
-  }, []);
+  // const SignOut = async () => {
+  //   try {
+  //     const { error } = await supabase.auth.signOut();
+  //     if (error) {
+  //       Alert.alert("Error", error.message);
+  //     } else {
+  //       Alert.alert("Success Logout");
+  //     }
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
+  // useEffect(() => {
+  //   retrieveUserData();
+  // }, []);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      retrieveUserData();
-    }, [])
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     retrieveUserData();
+  //   }, [])
+  // );
 
-  const retrieveUserData = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("Users")
-        .select()
-        .eq("UserEmail", userEmail);
-      if (error) {
-        Alert.alert("Error", error.message);
-      } else {
-        setUserData(data);
-        // Alert.alert("Success");
-        console.log(data);
-      }
-    } catch (error) {
-      console.log(error.message);
-      Alert.alert("Error", error.message);
-    }
-  };
+  // const retrieveUserData = async () => {
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("Users")
+  //       .select()
+  //       .eq("UserEmail", userEmail);
+  //     if (error) {
+  //       Alert.alert("Error", error.message);
+  //     } else {
+  //       setUserData(data);
+  //       // Alert.alert("Success");
+  //       console.log(data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     Alert.alert("Error", error.message);
+  //   }
+  // };
 
   const MainScreen = ({ navigation }) => {
+    const [userData, setUserData] = useState(null);
+    const isFocused = useIsFocused();
+    const { userEmail } = useUser();
+
+    useEffect(() => {
+      retrieveUserData();
+    }, []);
+
+    useFocusEffect(
+      React.useCallback(() => {
+        retrieveUserData();
+      }, [])
+    );
+
+    const retrieveUserData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("Users")
+          .select()
+          .eq("UserEmail", userEmail);
+        if (error) {
+          Alert.alert("Error", error.message);
+        } else {
+          setUserData(data);
+          // Alert.alert("Success");
+          console.log(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+        Alert.alert("Error", error.message);
+      }
+    };
+
     return (
       <View style={styles.mainCntnr}>
         <View style={styles.pageHeaderCntnr}>
@@ -120,7 +153,8 @@ const ProfileStack = () => {
             icon={<FontAwesome5 name="user-lock" size={20} color="#008000" />}
             label="My security"
             onPress={() => {
-              navigation.navigate("SecurityPage");
+              Alert.alert("Coming soon !");
+              // navigation.navigate("SecurityPage");
             }}
           />
         </View>
@@ -142,7 +176,8 @@ const ProfileStack = () => {
             }
             label="Accessibility options"
             onPress={() => {
-              navigation.navigate("Accessibility");
+              Alert.alert("Coming soon !");
+              // navigation.navigate("Accessibility");
             }}
           />
         </View>

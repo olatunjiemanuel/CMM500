@@ -225,7 +225,7 @@ const UserProfile = ({ navigation }) => {
               if (editable) {
                 editUserDetails();
                 // navigateBackToProfileStack();
-                // navigation.goBack();
+                navigation.goBack();
               }
             }}
             ButtonText={editable ? "Save" : "Edit"}
