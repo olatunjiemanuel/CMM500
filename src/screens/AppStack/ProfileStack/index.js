@@ -141,8 +141,13 @@ const ProfileStack = () => {
         <View style={styles.orgProfile}>
           <ProfileComponent
             icon={<Octicons name="organization" size={24} color="#008000" />}
-            onPress={() => {
-              navigation.navigate("OrgProfile");
+            onPress={async () => {
+              await retrieveUserData();
+              navigation.navigate("OrgProfile", {
+                companyName: userData[0]?.CompanyName,
+                industryName: userData[0]?.Industry,
+                productType: userData[0]?.ProductType,
+              });
             }}
             label="Organization"
             navLabel="view company profile"

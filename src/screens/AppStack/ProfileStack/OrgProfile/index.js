@@ -9,7 +9,11 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useUser } from "../../../../../UserContext";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import {
+  useNavigation,
+  useFocusEffect,
+  useRoute,
+} from "@react-navigation/native";
 import { supabase } from "../../../../../supabase-service";
 
 //component imports
@@ -18,11 +22,15 @@ import FormComponent from "../../../../components/FormComponent";
 import ButtonComponent from "../../../../components/ButtonComponent";
 
 const OrgProfile = ({ navigation }) => {
+  const route = useRoute();
+  const passedCompany = route.params?.companyName;
+  const passedIndustry = route.params?.industryName;
+  const passedProductType = route.params?.productType;
   const { userEmail } = useUser();
   const [userData, setUserData] = useState(null);
-  const [companyName, setCompanyName] = useState("");
-  const [industry, setIndustry] = useState("");
-  const [productType, setProductType] = useState("");
+  const [companyName, setCompanyName] = useState(passedCompany);
+  const [industry, setIndustry] = useState(passedIndustry);
+  const [productType, setProductType] = useState(passedProductType);
   const [editable, setEditable] = useState(false);
 
   const Loading = () => {
@@ -33,36 +41,40 @@ const OrgProfile = ({ navigation }) => {
     );
   };
 
-  useEffect(() => {
-    retrieveUserData();
-    if (userData) {
-      setCompanyName(userData ? userData[0]?.CompanyName : "");
-      setIndustry(userData ? userData[0]?.Industry : "");
-      setProductType(userData ? userData[0]?.ProductType : "");
-    }
-  }, [userData]);
+  // console.log(passedCompany);
+  // console.log(passedIndustry);
+  // console.log(passedProductType);
 
-  const retrieveUserData = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("Users")
-        .select()
-        .eq("UserEmail", userEmail);
-      if (error) {
-        Alert.alert("Error", error.message);
-      } else {
-        setUserData(data);
-        setCompanyName(userData ? userData[0]?.CompanyName : "");
-        setIndustry(userData ? userData[0]?.Industry : "");
-        setProductType(userData ? userData[0]?.ProductType : "");
-        // Alert.alert("Success");
-        // console.log(data);
-      }
-    } catch (error) {
-      console.log(error.message);
-      Alert.alert("Error", error.message);
-    }
-  };
+  // useEffect(() => {
+  //   retrieveUserData();
+  //   if (userData) {
+  //     setCompanyName(userData ? userData[0]?.CompanyName : "");
+  //     setIndustry(userData ? userData[0]?.Industry : "");
+  //     setProductType(userData ? userData[0]?.ProductType : "");
+  //   }
+  // }, []);
+
+  // const retrieveUserData = async () => {
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("Users")
+  //       .select()
+  //       .eq("UserEmail", userEmail);
+  //     if (error) {
+  //       Alert.alert("Error", error.message);
+  //     } else {
+  //       setUserData(data);
+  //       setCompanyName(userData ? userData[0]?.CompanyName : "");
+  //       setIndustry(userData ? userData[0]?.Industry : "");
+  //       setProductType(userData ? userData[0]?.ProductType : "");
+  //       // Alert.alert("Success");
+  //       // console.log(data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     Alert.alert("Error", error.message);
+  //   }
+  // };
 
   const editCompanyDetails = async () => {
     try {
@@ -86,11 +98,11 @@ const OrgProfile = ({ navigation }) => {
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      retrieveUserData();
-    }, [])
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     retrieveUserData();
+  //   }, [])
+  // );
 
   return (
     <View style={styles.mainCntnr}>
@@ -99,56 +111,56 @@ const OrgProfile = ({ navigation }) => {
         onPress={() => navigation.goBack()}
         TextColour="#000"
       />
-      {userData ? (
+      {/* {userData ? ( */}
+      <View>
         <View>
-          <View>
-            <FormComponent
-              formName="Company name"
-              placeHolder="something"
-              // onFocus={() => {
-              //   Alert.alert("Cannot edit user email at this time");
-              // }}
-              borderColor
-              color="grey"
-              value={companyName}
-              onChangeText={(value) => {
-                setCompanyName(value);
-              }}
-              secureTextEntry={false}
-              editable={editable}
-            />
-          </View>
-          <View style={styles.formCtnr}>
-            <FormComponent
-              formName="Industry"
-              // placeHolder="something"
-              // onFocus
-              borderColor
-              color="grey"
-              value={industry}
-              onChangeText={(value) => {
-                setIndustry(value);
-              }}
-              secureTextEntry={false}
-              editable={editable}
-            />
-          </View>
-          <View style={styles.formCtnr}>
-            <FormComponent
-              formName="Product type"
-              // placeHolder="something"
-              // onFocus
-              borderColor
-              color="grey"
-              value={productType}
-              onChangeText={(value) => {
-                setProductType(value);
-              }}
-              secureTextEntry={false}
-              editable={editable}
-            />
-          </View>
-          {/* <View style={styles.formCtnr}>
+          <FormComponent
+            formName="Company name"
+            placeHolder="something"
+            // onFocus={() => {
+            //   Alert.alert("Cannot edit user email at this time");
+            // }}
+            borderColor
+            color="grey"
+            value={companyName}
+            onChangeText={(value) => {
+              setCompanyName(value);
+            }}
+            secureTextEntry={false}
+            editable={editable}
+          />
+        </View>
+        <View style={styles.formCtnr}>
+          <FormComponent
+            formName="Industry"
+            // placeHolder="something"
+            // onFocus
+            borderColor
+            color="grey"
+            value={industry}
+            onChangeText={(value) => {
+              setIndustry(value);
+            }}
+            secureTextEntry={false}
+            editable={editable}
+          />
+        </View>
+        <View style={styles.formCtnr}>
+          <FormComponent
+            formName="Product type"
+            // placeHolder="something"
+            // onFocus
+            borderColor
+            color="grey"
+            value={productType}
+            onChangeText={(value) => {
+              setProductType(value);
+            }}
+            secureTextEntry={false}
+            editable={editable}
+          />
+        </View>
+        {/* <View style={styles.formCtnr}>
             <FormComponent
               formName="Mobile No."
               // placeHolder="something"
@@ -178,23 +190,24 @@ const OrgProfile = ({ navigation }) => {
               editable={editable}
             />
           </View> */}
-          <View style={styles.buttonCntnr}>
-            <ButtonComponent
-              bgColour="#008000"
-              onPress={() => {
-                setEditable(!editable);
-                if (editable) {
-                  editCompanyDetails();
-                }
-              }}
-              ButtonText={editable ? "Save" : "Edit"}
-              textColour="#fff"
-            />
-          </View>
+        <View style={styles.buttonCntnr}>
+          <ButtonComponent
+            bgColour="#008000"
+            onPress={() => {
+              setEditable(!editable);
+              if (editable) {
+                editCompanyDetails();
+                navigation.goBack();
+              }
+            }}
+            ButtonText={editable ? "Save" : "Edit"}
+            textColour="#fff"
+          />
         </View>
-      ) : (
+      </View>
+      {/* ) : (
         Loading()
-      )}
+      )} */}
     </View>
   );
 };
