@@ -207,8 +207,8 @@ const ProfileStack = () => {
         </View>
         <TouchableOpacity
           onPress={() => {
+            SignOut();
             Restart();
-            // SignOut();
             // await Updates.reloadAsync();
             // navigateToprofile();
             // navigation.dispatch(
