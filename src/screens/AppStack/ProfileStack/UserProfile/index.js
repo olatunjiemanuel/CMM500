@@ -13,6 +13,8 @@ import {
   useNavigation,
   useFocusEffect,
   useRoute,
+  CommonActions,
+  useIsFocused,
 } from "@react-navigation/native";
 import { supabase } from "../../../../../supabase-service";
 
@@ -23,6 +25,7 @@ import ButtonComponent from "../../../../components/ButtonComponent";
 
 const UserProfile = ({ navigation }) => {
   const route = useRoute();
+  const isFocused = useIsFocused();
   const passedfirstName = route.params?.firstName;
   const passedLastName = route.params?.lastName;
   const passedMobileNo = route.params?.mobileNo;
@@ -30,16 +33,32 @@ const UserProfile = ({ navigation }) => {
   const { userEmail } = useUser();
   const [userData, setUserData] = useState(null);
   const [editable, setEditable] = useState(false);
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
-  const [phone, setPhone] = useState(null);
-  const [position, setPosition] = useState(null);
+  const [firstName, setFirstName] = useState(passedfirstName);
+  const [lastName, setLastName] = useState(passedLastName);
+  const [phone, setPhone] = useState(passedMobileNo);
+  const [position, setPosition] = useState(passedposition);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      retrieveUserData();
-    }, [])
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     retrieveUserData();
+  //   }, [])
+  // );
+
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     retrieveUserData();
+  //   }
+  // }, [isFocused]);
+
+  const navigateBackToProfileStack = () => {
+    // Reset the navigation stack and navigate to the MainScreen of ProfileStack
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "MainScreen" }], // Adjust the route name as needed
+      })
+    );
+  };
 
   // console.log(passedfirstName);
   // console.log(passedLastName);
@@ -56,13 +75,13 @@ const UserProfile = ({ navigation }) => {
   //   }
   // }, [userData]);
 
-  useEffect(() => {
-    retrieveUserData();
-    setFirstName(passedfirstName);
-    setLastName(passedLastName);
-    setPhone(passedMobileNo);
-    setPosition(passedposition);
-  }, []);
+  // useEffect(() => {
+  //   retrieveUserData();
+  //   setFirstName(passedfirstName);
+  //   setLastName(passedLastName);
+  //   setPhone(passedMobileNo);
+  //   setPosition(passedposition);
+  // }, []);
 
   const retrieveUserData = async () => {
     try {
@@ -75,7 +94,7 @@ const UserProfile = ({ navigation }) => {
       } else {
         setUserData(data);
         // Alert.alert("Success");
-        // console.log(data);
+        console.log(data);
       }
     } catch (error) {
       console.log(error.message);
@@ -121,101 +140,100 @@ const UserProfile = ({ navigation }) => {
         onPress={() => navigation.goBack()}
         TextColour="#000"
       />
-      {userData ? (
+      {/* {userData ? ( */}
+      <View>
         <View>
-          <View>
-            <FormComponent
-              formName="Email"
-              placeHolder="something"
-              // onFocus={() => {
-              //   Alert.alert("Cannot edit user email at this time");
-              // }}
-              borderColor
-              color="grey"
-              value={userEmail}
-              // onChangeText
-              secureTextEntry={false}
-              editable={false}
-            />
-          </View>
-          <View style={styles.formCtnr}>
-            <FormComponent
-              formName="First name"
-              // placeHolder="something"
-              // onFocus
-              borderColor
-              color="grey"
-              value={firstName}
-              onChangeText={(value) => {
-                setFirstName(value);
-              }}
-              secureTextEntry={false}
-              editable={editable}
-            />
-          </View>
-          <View style={styles.formCtnr}>
-            <FormComponent
-              formName="Last name"
-              // placeHolder="something"
-              // onFocus
-              borderColor
-              color="grey"
-              value={lastName}
-              onChangeText={(value) => {
-                setLastName(value);
-              }}
-              secureTextEntry={false}
-              editable={editable}
-            />
-          </View>
-          <View style={styles.formCtnr}>
-            <FormComponent
-              formName="Mobile No."
-              // placeHolder="something"
-              // onFocus
-              borderColor
-              color="grey"
-              value={phone}
-              onChangeText={(value) => {
-                setPhone(value);
-              }}
-              secureTextEntry={false}
-              editable={editable}
-            />
-          </View>
-          <View style={styles.formCtnr}>
-            <FormComponent
-              formName="Positon"
-              // placeHolder="something"
-              // onFocus
-              borderColor
-              color="grey"
-              value={position}
-              onChangeText={(value) => {
-                setPosition(value);
-              }}
-              secureTextEntry={false}
-              editable={editable}
-            />
-          </View>
-          <View style={styles.buttonCntnr}>
-            <ButtonComponent
-              bgColour="#008000"
-              onPress={() => {
-                setEditable(!editable);
-                if (editable) {
-                  editUserDetails();
-                  navigation.goBack();
-                }
-              }}
-              ButtonText={editable ? "Save" : "Edit"}
-              textColour="#fff"
-            />
-          </View>
+          <FormComponent
+            formName="Email"
+            placeHolder="something"
+            // onFocus={() => {
+            //   Alert.alert("Cannot edit user email at this time");
+            // }}
+            borderColor
+            color="grey"
+            value={userEmail}
+            // onChangeText
+            secureTextEntry={false}
+            editable={false}
+          />
         </View>
-      ) : (
-        Loading()
-      )}
+        <View style={styles.formCtnr}>
+          <FormComponent
+            formName="First name"
+            // placeHolder="something"
+            // onFocus
+            borderColor
+            color="grey"
+            value={firstName}
+            onChangeText={(value) => {
+              setFirstName(value);
+            }}
+            secureTextEntry={false}
+            editable={editable}
+          />
+        </View>
+        <View style={styles.formCtnr}>
+          <FormComponent
+            formName="Last name"
+            // placeHolder="something"
+            // onFocus
+            borderColor
+            color="grey"
+            value={lastName}
+            onChangeText={(value) => {
+              setLastName(value);
+            }}
+            secureTextEntry={false}
+            editable={editable}
+          />
+        </View>
+        <View style={styles.formCtnr}>
+          <FormComponent
+            formName="Mobile No."
+            // placeHolder="something"
+            // onFocus
+            borderColor
+            color="grey"
+            value={phone}
+            onChangeText={(value) => {
+              setPhone(value);
+            }}
+            secureTextEntry={false}
+            editable={editable}
+          />
+        </View>
+        <View style={styles.formCtnr}>
+          <FormComponent
+            formName="Positon"
+            // placeHolder="something"
+            // onFocus
+            borderColor
+            color="grey"
+            value={position}
+            onChangeText={(value) => {
+              setPosition(value);
+            }}
+            secureTextEntry={false}
+            editable={editable}
+          />
+        </View>
+        <View style={styles.buttonCntnr}>
+          <ButtonComponent
+            bgColour="#008000"
+            onPress={() => {
+              setEditable(!editable);
+              if (editable) {
+                editUserDetails();
+                // navigateBackToProfileStack();
+                // navigation.goBack();
+              }
+            }}
+            ButtonText={editable ? "Save" : "Edit"}
+            textColour="#fff"
+          />
+        </View>
+      </View>
+      {/* // ) : ( // Loading() // )} */}
     </View>
   );
 };

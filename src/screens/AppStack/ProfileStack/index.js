@@ -2,7 +2,7 @@ import { Button, StyleSheet, View, Platform, Text, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 //screenm imports
 import UserProfile from "../ProfileStack/UserProfile/index";
@@ -29,7 +29,14 @@ const Stack = createNativeStackNavigator();
 
 const ProfileStack = () => {
   const [userData, setUserData] = useState(null);
+  const isFocused = useIsFocused();
   const { userEmail } = useUser();
+
+  useEffect(() => {
+    if (isFocused) {
+      retrieveUserData();
+    }
+  }, [isFocused]);
 
   const SignOut = async () => {
     try {
@@ -85,7 +92,8 @@ const ProfileStack = () => {
                 <FontAwesome name="user" size={24} color="#008000" />
               </View>
             }
-            onPress={() => {
+            onPress={async () => {
+              await retrieveUserData();
               navigation.navigate("UserProfile", {
                 firstName: userData[0]?.FirstName,
                 lastName: userData[0]?.LastName,
