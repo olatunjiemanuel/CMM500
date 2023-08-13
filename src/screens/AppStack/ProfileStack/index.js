@@ -2,7 +2,12 @@ import { Button, StyleSheet, View, Platform, Text, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useIsFocused,
+  CommonActions,
+} from "@react-navigation/native";
+import { Restart } from "expo-restart";
 
 //screenm imports
 import UserProfile from "../ProfileStack/UserProfile/index";
@@ -28,6 +33,7 @@ import { supabase } from "../../../../supabase-service";
 const Stack = createNativeStackNavigator();
 
 const ProfileStack = () => {
+  const navigation = useNavigation();
   // const [userData, setUserData] = useState(null);
   // const isFocused = useIsFocused();
   // const { userEmail } = useUser();
@@ -38,18 +44,6 @@ const ProfileStack = () => {
   //   }
   // }, [isFocused]);
 
-  // const SignOut = async () => {
-  //   try {
-  //     const { error } = await supabase.auth.signOut();
-  //     if (error) {
-  //       Alert.alert("Error", error.message);
-  //     } else {
-  //       Alert.alert("Success Logout");
-  //     }
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // };
   // useEffect(() => {
   //   retrieveUserData();
   // }, []);
@@ -79,6 +73,18 @@ const ProfileStack = () => {
   //   }
   // };
 
+  const navigateToprofile = () => {
+    navigation.navigate("AppStack", {
+      screen: "Home",
+      initial: false,
+    });
+    // navigation.dispatch(
+    //   CommonActions.navigate({
+    //     name: "OnboardingStack",
+    //   })
+    // );
+  };
+
   const MainScreen = ({ navigation }) => {
     const [userData, setUserData] = useState(null);
     const isFocused = useIsFocused();
@@ -93,6 +99,19 @@ const ProfileStack = () => {
         retrieveUserData();
       }, [])
     );
+
+    const SignOut = async () => {
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+          Alert.alert("Error", error.message);
+        } else {
+          Alert.alert("Success Logout");
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
 
     const retrieveUserData = async () => {
       try {
@@ -188,7 +207,16 @@ const ProfileStack = () => {
         </View>
         <TouchableOpacity
           onPress={() => {
-            SignOut();
+            Restart();
+            // SignOut();
+            // await Updates.reloadAsync();
+            // navigateToprofile();
+            // navigation.dispatch(
+            //   CommonActions.reset({
+            //     index: 0,
+            //     routes: [{ name: "OnboardingStack" }],
+            //   })
+            // );
           }}
           style={styles.signOutBtnCntnr}
           // onPress={() => {

@@ -16,6 +16,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 const HomeStack = () => {
+  const navigation = useNavigation();
   const [totalItems, setTotalItems] = useState(null);
   const [totalQuantity, setTotalQuantity] = useState(null);
   const [TotalValue, setTotalValue] = useState(null);
