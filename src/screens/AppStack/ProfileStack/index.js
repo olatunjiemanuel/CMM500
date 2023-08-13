@@ -1,7 +1,8 @@
 import { Button, StyleSheet, View, Platform, Text, Alert } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useFocusEffect } from "@react-navigation/native";
 
 //screenm imports
 import UserProfile from "../ProfileStack/UserProfile/index";
@@ -10,6 +11,7 @@ import SecurityPage from "../ProfileStack/SecurityPage/index";
 import HelpSupport from "../ProfileStack/HelpSupport/index";
 import Accessibility from "../ProfileStack/Accessibility/index";
 import SignOut from "../ProfileStack/SignOut/index";
+import { useUser } from "../../../../UserContext";
 
 //component imports
 import ProfileComponent from "../../../components/ProfileComponent/index";
@@ -26,6 +28,9 @@ import { supabase } from "../../../../supabase-service";
 const Stack = createNativeStackNavigator();
 
 const ProfileStack = () => {
+  const [userData, setUserData] = useState(null);
+  const { userEmail } = useUser();
+
   const SignOut = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -36,6 +41,34 @@ const ProfileStack = () => {
       }
     } catch (error) {
       console.error(error.message);
+    }
+  };
+  useEffect(() => {
+    retrieveUserData();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      retrieveUserData();
+    }, [])
+  );
+
+  const retrieveUserData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("Users")
+        .select()
+        .eq("UserEmail", userEmail);
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        setUserData(data);
+        // Alert.alert("Success");
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+      Alert.alert("Error", error.message);
     }
   };
 
@@ -53,7 +86,12 @@ const ProfileStack = () => {
               </View>
             }
             onPress={() => {
-              navigation.navigate("UserProfile");
+              navigation.navigate("UserProfile", {
+                firstName: userData[0]?.FirstName,
+                lastName: userData[0]?.LastName,
+                mobileNo: userData[0]?.PhoneNumber,
+                position: userData[0]?.Position,
+              });
             }}
             label="User profile"
             navLabel="view profile"

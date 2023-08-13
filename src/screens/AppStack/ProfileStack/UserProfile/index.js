@@ -9,7 +9,11 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useUser } from "../../../../../UserContext";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import {
+  useNavigation,
+  useFocusEffect,
+  useRoute,
+} from "@react-navigation/native";
 import { supabase } from "../../../../../supabase-service";
 
 // component import
@@ -18,6 +22,11 @@ import FormComponent from "../../../../components/FormComponent";
 import ButtonComponent from "../../../../components/ButtonComponent";
 
 const UserProfile = ({ navigation }) => {
+  const route = useRoute();
+  const passedfirstName = route.params?.firstName;
+  const passedLastName = route.params?.lastName;
+  const passedMobileNo = route.params?.mobileNo;
+  const passedposition = route.params?.position;
   const { userEmail } = useUser();
   const [userData, setUserData] = useState(null);
   const [editable, setEditable] = useState(false);
@@ -32,15 +41,28 @@ const UserProfile = ({ navigation }) => {
     }, [])
   );
 
+  // console.log(passedfirstName);
+  // console.log(passedLastName);
+  // console.log(passedMobileNo);
+  // console.log(passedposition);
+
+  // useEffect(() => {
+  //   retrieveUserData();
+  //   if (userData) {
+  //     setFirstName(userData ? userData[0]?.FirstName : "");
+  //     setLastName(userData ? userData[0]?.LastName : "");
+  //     setPhone(userData ? userData[0]?.PhoneNumber : "");
+  //     setPosition(userData ? userData[0]?.Position : "");
+  //   }
+  // }, [userData]);
+
   useEffect(() => {
     retrieveUserData();
-    if (userData) {
-      setFirstName(userData ? userData[0]?.FirstName : "");
-      setLastName(userData ? userData[0]?.LastName : "");
-      setPhone(userData ? userData[0]?.PhoneNumber : "");
-      setPosition(userData ? userData[0]?.Position : "");
-    }
-  }, [userData]);
+    setFirstName(passedfirstName);
+    setLastName(passedLastName);
+    setPhone(passedMobileNo);
+    setPosition(passedposition);
+  }, []);
 
   const retrieveUserData = async () => {
     try {
@@ -183,6 +205,7 @@ const UserProfile = ({ navigation }) => {
                 setEditable(!editable);
                 if (editable) {
                   editUserDetails();
+                  navigation.goBack();
                 }
               }}
               ButtonText={editable ? "Save" : "Edit"}

@@ -20,9 +20,9 @@ import ButtonComponent from "../../../../components/ButtonComponent";
 const OrgProfile = ({ navigation }) => {
   const { userEmail } = useUser();
   const [userData, setUserData] = useState(null);
-  const [companyName, setCompanyName] = useState(null);
-  const [industry, setIndustry] = useState(null);
-  const [productType, setProductType] = useState(null);
+  const [companyName, setCompanyName] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [productType, setProductType] = useState("");
   const [editable, setEditable] = useState(false);
 
   const Loading = () => {
@@ -52,14 +52,40 @@ const OrgProfile = ({ navigation }) => {
         Alert.alert("Error", error.message);
       } else {
         setUserData(data);
+        setCompanyName(userData ? userData[0]?.CompanyName : "");
+        setIndustry(userData ? userData[0]?.Industry : "");
+        setProductType(userData ? userData[0]?.ProductType : "");
         // Alert.alert("Success");
-        console.log(data);
+        // console.log(data);
       }
     } catch (error) {
       console.log(error.message);
       Alert.alert("Error", error.message);
     }
   };
+
+  const editCompanyDetails = async () => {
+    try {
+      const { error } = await supabase
+        .from("Users")
+        .update({
+          CompanyName: companyName,
+          Industry: industry,
+          ProductType: productType,
+        })
+        .eq("UserEmail", userEmail);
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Company details updated");
+        setEditable(false);
+      }
+    } catch (error) {
+      console.log(error.message);
+      Alert.alert("Error", error.message);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       retrieveUserData();
@@ -85,9 +111,11 @@ const OrgProfile = ({ navigation }) => {
               borderColor
               color="grey"
               value={companyName}
-              // onChangeText
+              onChangeText={(value) => {
+                setCompanyName(value);
+              }}
               secureTextEntry={false}
-              editable={false}
+              editable={editable}
             />
           </View>
           <View style={styles.formCtnr}>
@@ -99,7 +127,7 @@ const OrgProfile = ({ navigation }) => {
               color="grey"
               value={industry}
               onChangeText={(value) => {
-                setFirstName(value);
+                setIndustry(value);
               }}
               secureTextEntry={false}
               editable={editable}
@@ -114,7 +142,7 @@ const OrgProfile = ({ navigation }) => {
               color="grey"
               value={productType}
               onChangeText={(value) => {
-                setLastName(value);
+                setProductType(value);
               }}
               secureTextEntry={false}
               editable={editable}
@@ -156,7 +184,7 @@ const OrgProfile = ({ navigation }) => {
               onPress={() => {
                 setEditable(!editable);
                 if (editable) {
-                  editUserDetails();
+                  editCompanyDetails();
                 }
               }}
               ButtonText={editable ? "Save" : "Edit"}
