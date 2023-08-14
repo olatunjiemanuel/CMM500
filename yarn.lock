@@ -3752,12 +3752,22 @@ expo-modules-core@~0.4.8:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
+expo-print@~12.2.1:
+  version "12.2.1"
+  resolved "https://registry.yarnpkg.com/expo-print/-/expo-print-12.2.1.tgz#0cca097f67ab445e94f2c849002b811d02756e89"
+  integrity sha512-scvbr85YJmCQs9HdzD7xmmaHkiGwZPlvCkpOKfPrRC0AEhb8JvyQ9kcl7ub91mFyTJwTFJ6rjlSqBuHRTBxbgw==
+
 expo-restart@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/expo-restart/-/expo-restart-0.0.2.tgz#69742090d8e239465d96312982ef665ebb2a1c96"
   integrity sha512-ycZZyvLAjHmQiUe62gYPOxT+euDp4xSnLz9xZq7j2YDarXNnP53U1t80JJ/APGkG3fJEfvB0FoW2hH2L1UM1tw==
   dependencies:
     expo-updates "^0.10.9"
+
+expo-sharing@~11.2.2:
+  version "11.2.2"
+  resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-11.2.2.tgz#7d9e387f1a902e6dd6838c22d9599dae9e7432cf"
+  integrity sha512-4Lhm1eS/CFIzX+JPuxMUTWBt9rv/WdvJvpQ9y+71bL/9w9dhvsdt9tv0SsNZATz4hk0tbrYD8ZEUsgiHiT1KkQ==
 
 expo-status-bar@~1.4.4:
   version "1.4.4"

@@ -10,16 +10,22 @@ import React, { useState, useEffect } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { supabase } from "../../../../supabase-service";
 import { useUser } from "../../../../UserContext";
+import { printToFileAsync } from "expo-print";
+import { shareAsync } from "expo-sharing";
 
 // component Imports
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+import ButtonComponent from "../../../components/ButtonComponent/index";
 
 const HomeStack = () => {
   const navigation = useNavigation();
   const [totalItems, setTotalItems] = useState(null);
   const [totalQuantity, setTotalQuantity] = useState(null);
   const [TotalValue, setTotalValue] = useState(null);
+  const [catalogueData, setCatalogueData] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   const { userEmail } = useUser();
 
@@ -29,6 +35,25 @@ const HomeStack = () => {
         <ActivityIndicator size="large" />
       </View>
     );
+  };
+
+  const html = `
+    <html>
+    <body>
+      <h1>Hi Team</h1>
+      <p1>Hi Team</p2>
+      <img src="https://qxtviuohozgpbhksexyj.supabase.co/storage/v1/object/public/Inventory-images/b38a7d8b-650b-46f7-9aee-081b627df2b7.jpg" alt="Flowers in Chania">
+    </body>
+    </html>
+  `;
+
+  const generatePDF = async () => {
+    const file = await printToFileAsync({
+      html: html,
+      base64: false,
+    });
+    setLoading(false);
+    await shareAsync(file.uri);
   };
 
   const MonthlySummary = () => {};
@@ -45,6 +70,23 @@ const HomeStack = () => {
       }
     } catch (error) {
       console.log(error.message);
+      Alert.alert("Error", error.message);
+    }
+  };
+
+  const retrievCatalogueData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("Inventory")
+        .select()
+        .eq("userEmail", userEmail);
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        // console.log(data);
+        setCatalogueData(data);
+      }
+    } catch (error) {
       Alert.alert("Error", error.message);
     }
   };
@@ -122,6 +164,7 @@ const HomeStack = () => {
     retrieveData();
     retrievePrice();
     retriveQuantity();
+    retrievCatalogueData();
   }, []);
 
   useFocusEffect(
@@ -129,6 +172,7 @@ const HomeStack = () => {
       retrieveData();
       retrievePrice();
       retriveQuantity();
+      retrievCatalogueData();
     }, [])
   );
   return (
@@ -160,6 +204,17 @@ const HomeStack = () => {
               £ {TotalValue ? TotalValue : Loading()}
             </Text>
           </View>
+        </View>
+        <View style={styles.buttonCntnr}>
+          <ButtonComponent
+            bgColour="#008000"
+            onPress={() => {
+              setLoading(true);
+              generatePDF();
+            }}
+            ButtonText={loading ? "Creating catalogue" : "Create catalogue"}
+            textColour="#fff"
+          />
         </View>
       </View>
       <View style={styles.inventorySummaryCntnr}>
@@ -232,4 +287,9 @@ const styles = StyleSheet.create({
   },
   monthTextCntnr: { marginTop: 10, padding: 10 },
   monthText: { color: "grey", fontSize: 15 },
+  buttonCntnr: {
+    marginTop: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+  },
 });
