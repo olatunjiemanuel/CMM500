@@ -119,7 +119,7 @@ const Onboarding_Company = ({ navigation, onComplete }) => {
             textColour="#fff"
           />
         </View>
-        <Text>{userEmail}</Text>
+        {/* <Text>{userEmail}</Text> */}
       </ScrollView>
     </View>
   );
