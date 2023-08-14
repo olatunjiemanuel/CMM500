@@ -37,17 +37,43 @@ const HomeStack = () => {
     );
   };
 
-  const html = `
-    <html>
-    <body>
-      <h1>Hi Team</h1>
-      <p1>Hi Team</p2>
-      <img src="https://qxtviuohozgpbhksexyj.supabase.co/storage/v1/object/public/Inventory-images/b38a7d8b-650b-46f7-9aee-081b627df2b7.jpg" alt="Flowers in Chania">
+  const generateHtml = (items) => {
+    return `
+      <html>
+      <body style="text-align: center;">
+      <h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
+        Inventory Catalogue
+      </h1>
+      ${items
+        .map(
+          (item) => `
+        <div style="margin: 20px; padding: 10px; border: 1px solid #000;">
+          <h2>Name: ${item.Name}</h2>
+          <p>Description: ${item.Description}</p>
+          <img src = ${item.ImageUrl} style = "width: 200px", height = "200px">
+          <h2>Price: £ ${item.Price}</h2>
+        </div>
+      `
+        )
+        .join("")}
     </body>
-    </html>
-  `;
+      </html>
+    `;
+  };
+
+  // const html = `
+  //   <html>
+  //   <body>
+  //     <h1>Hi Team</h1>
+  //     <p1>Hi Team</p2>
+  //     <img src="https://qxtviuohozgpbhksexyj.supabase.co/storage/v1/object/public/Inventory-images/b38a7d8b-650b-46f7-9aee-081b627df2b7.jpg" alt="Flowers in Chania">
+  //   </body>
+  //   </html>
+  // `;
 
   const generatePDF = async () => {
+    const html = generateHtml(catalogueData);
+
     const file = await printToFileAsync({
       html: html,
       base64: false,
