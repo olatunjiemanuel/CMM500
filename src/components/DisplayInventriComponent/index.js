@@ -3,12 +3,10 @@ import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const DisplayInventriComponent = (props) => {
-  const { itemName, quantity, onPress } = props;
+  const { itemName, quantity, onPress, Img } = props;
   return (
     <TouchableOpacity style={styles.mainCntnr} onPress={onPress}>
-      <View style={styles.imagCntnr}>
-        <Text>Img</Text>
-      </View>
+      <View style={styles.imagCntnr}>{Img}</View>
       <View style={styles.middle}>
         <Text style={styles.nameCntnr}>{itemName}</Text>
         <Text style={styles.qtyCntnr}>Quantity: {quantity}</Text>

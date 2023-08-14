@@ -2,9 +2,9 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   Alert,
   Platform,
+  Image,
   ActivityIndicator,
   Modal,
   TouchableOpacity,
@@ -249,7 +249,21 @@ const ItemView = ({ navigation }) => {
       </View>
       {inventory ? (
         <View style={{ paddingHorizontal: 10 }}>
-          <View style={styles.ImgCntnr}></View>
+          <View>
+            {inventory[0]?.ImageUrl ? (
+              <Image
+                style={styles.image}
+                source={{ uri: inventory[0]?.ImageUrl }}
+              />
+            ) : (
+              <View style={styles.ImgCntnr}>
+                <Text style={{ color: "#fff", fontSize: 15 }}>
+                  No image has been added for this item. Please add an image to
+                  display using the edit button
+                </Text>
+              </View>
+            )}
+          </View>
           <View style={styles.idAndBtnCntnr}>
             <View style={{ marginRight: 50, alignItems: "center" }}>
               <Text style={styles.titleTxt}>Item ID</Text>
@@ -330,6 +344,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     height: 200,
     backgroundColor: "grey",
+    borderRadius: 10,
+    justifyContent: "center",
+  },
+  image: {
+    width: 325,
+    height: 200,
     borderRadius: 10,
   },
   idAndBtnCntnr: {

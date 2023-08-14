@@ -42,12 +42,14 @@ const ItemsScreen = () => {
   const inputRef = useRef(null);
   const [inventory, setInventory] = useState(null);
   const { userEmail } = useUser();
+  const [imageData, setImageData] = useState(null);
 
   // form states
   const [itemName, setItemName] = useState(null);
   const [itemDesc, setItemDesc] = useState(null);
   const [itemQty, setItemQty] = useState(null);
   const [itemPrice, setItemPrice] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const navigation = useNavigation();
 
@@ -82,8 +84,46 @@ const ItemsScreen = () => {
           aspect: [4, 3],
           quanlity: 1,
         });
-        return picture;
+        if (!picture.cancelled) {
+          // console.log(picture);
+          //get extention
+          const ext = picture.uri.substring(picture.uri.lastIndexOf(".") + 1);
+          // console.log(ext);
+          // get filename
+          const filename = picture.uri.replace(/^.*[\\\/]/, "");
+
+          var formData = new FormData();
+          formData.append("files", {
+            uri: picture.uri,
+            name: filename,
+            type: `image/${ext}`,
+          });
+
+          //upload to image bucket
+          const { data, error } = await supabase.storage
+            .from("Inventory-images")
+            .upload(filename, formData);
+
+          if (error) {
+            Alert.alert("error", error.message);
+          }
+          // console.log(data);
+          setImageData(data);
+          // return photo and supabase image data
+
+          // construct path for public URL
+
+          setImageUrl(
+            `https://qxtviuohozgpbhksexyj.supabase.co/storage/v1/object/public/Inventory-images/${data.path}`
+          );
+          console.log(imageUrl);
+
+          return { ...picture, imageData: data };
+        } else {
+          return picture;
+        }
       } catch (error) {
+        Alert.alert("Error", error.message);
         console.log(error);
       }
     }
@@ -133,7 +173,7 @@ const ItemsScreen = () => {
         Alert.alert("Error", error.message);
       } else {
         // Alert.alert("Success");
-        // console.log(data);
+        console.log(data);
         setInventory(data);
       }
     } catch (error) {
@@ -156,6 +196,7 @@ const ItemsScreen = () => {
         Amount: itemPrice,
         Price: itemPrice,
         userEmail: userEmail,
+        ImageUrl: imageUrl,
       });
       if (error) {
         Alert.alert("Error", error.message);
@@ -292,6 +333,8 @@ const ItemsScreen = () => {
                 >
                   <Feather name="camera" size={24} color="#fff" />
                   <Text style={{ color: "#fff" }}>Add image</Text>
+                  {/* <Text>{JSON.stringify(imageData)}</Text>
+                  <Text>{imageUrl}</Text> */}
                 </TouchableOpacity>
               </View>
 
@@ -371,10 +414,11 @@ const ItemsScreen = () => {
                   const photo = await takePhoto();
                   if (!photo.cancelled) {
                     setInventoryPhoto(photo.uri);
+                    // setImageData(photo?.uri);
                   }
                   setCameraModal(false);
                   setModalView(true);
-                  // Alert.alert("photo taken", JSON.stringify(photo));
+                  Alert.alert("photo taken", JSON.stringify(photo));
                 }}
               ></TouchableOpacity>
             </View>
@@ -480,6 +524,12 @@ const ItemsScreen = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                   <DisplayInventriComponent
+                    Img={
+                      <Image
+                        style={{ width: 50, height: 50 }}
+                        source={{ uri: item.ImageUrl }}
+                      />
+                    }
                     onPress={() =>
                       navigation.navigate("ItemView", { itemId: item.id })
                     }
