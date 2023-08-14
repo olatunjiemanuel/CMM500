@@ -239,6 +239,11 @@ const ItemsScreen = () => {
                   size={24}
                   color="black"
                   onPress={() => {
+                    setItemName(null);
+                    setItemDesc(null);
+                    setItemQty(null);
+                    setItemPrice(null);
+                    setImageUrl(null);
                     setModalView(false);
                   }}
                 />
@@ -260,7 +265,7 @@ const ItemsScreen = () => {
                   onChangeText={(text) => setItemName(text)}
                 />
               </View>
-              <View>
+              <View style={styles.formCtnrs}>
                 <FormComponent
                   formName="Item description"
                   placeHolder="Please enter item description"
@@ -271,7 +276,7 @@ const ItemsScreen = () => {
                   onChangeText={(text) => setItemDesc(text)}
                 />
               </View>
-              <View>
+              {/* <View style={styles.formCtnrs}>
                 <FormComponent
                   formName="Item ID"
                   placeHolder="Please enter item ID, leave empty if N/A"
@@ -281,8 +286,8 @@ const ItemsScreen = () => {
                   //  value
                   //  onChangeText
                 />
-              </View>
-              <View>
+              </View> */}
+              <View style={styles.formCtnrs}>
                 <FormComponent
                   formName="Item quantity"
                   placeHolder="Please enter item qantity"
@@ -293,7 +298,7 @@ const ItemsScreen = () => {
                   onChangeText={(text) => setItemQty(text)}
                 />
               </View>
-              <View>
+              <View style={styles.formCtnrs}>
                 <FormComponent
                   formName="Item price"
                   placeHolder="Please enter item price"
@@ -570,6 +575,10 @@ const styles = StyleSheet.create({
   },
   cancelButtonCntnr: {
     paddingLeft: 10,
+  },
+
+  formCtnrs: {
+    marginTop: 15,
   },
   recentSearchContainer: {},
   recentSearchTxtContainer: {
