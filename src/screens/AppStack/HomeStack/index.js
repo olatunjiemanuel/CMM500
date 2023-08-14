@@ -255,17 +255,17 @@ const HomeStack = () => {
           </Text>
         </View>
       </View>
-      <View>
+      {/* <View>
         <Button
           title="getusertest"
           onPress={() => {
             retrieveUser();
           }}
         />
-      </View>
-      <View>
+      </View> */}
+      {/* <View>
         <Text>{userEmail}</Text>
-      </View>
+      </View> */}
     </View>
   );
 };

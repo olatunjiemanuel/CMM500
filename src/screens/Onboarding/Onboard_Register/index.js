@@ -117,13 +117,13 @@ const Onboard_Register = ({ navigation, onComplete }) => {
           textColour="#fff"
         />
       </View>
-      <Button title="Got to AppStack" onPress={handleOnboardingComplete} />
+      {/* <Button title="Got to AppStack" onPress={handleOnboardingComplete} />
       <Button
         title="go to next screen"
         onPress={() => {
           navigation.navigate("OnboardUser");
         }}
-      />
+      /> */}
     </View>
   );
 };

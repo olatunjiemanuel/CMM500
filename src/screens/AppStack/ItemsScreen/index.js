@@ -545,12 +545,12 @@ const ItemsScreen = () => {
                 ListFooterComponent={() => <FlatListFooter />}
               />
               {/* <DisplayInventriComponent /> */}
-              <Button
+              {/* <Button
                 title="Run test"
-                // onPress={() => {
-                //   addTest();
-                // }}
-              />
+                onPress={() => {
+                  addTest();
+                }}
+              /> */}
             </View>
           ) : (
             <ActivityIndicator size="large" color="#000" />

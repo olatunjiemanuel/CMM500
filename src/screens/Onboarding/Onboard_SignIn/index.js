@@ -188,14 +188,14 @@ const Onboard_SignIn = ({ navigation, onComplete }) => {
           textColour="#fff"
         />
       </View>
-      <Button title="Got to AppStack" onPress={handleOnboardingComplete} />
+      {/* <Button title="Got to AppStack" onPress={handleOnboardingComplete} />
       <Button title="show user details" onPress={getUserDetails} />
       <Button
         title="SignOut"
         onPress={() => {
           SignOut();
         }}
-      />
+      /> */}
     </View>
   );
 };
