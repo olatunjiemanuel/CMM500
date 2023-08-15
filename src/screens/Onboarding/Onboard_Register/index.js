@@ -46,7 +46,7 @@ const Onboard_Register = ({ navigation, onComplete }) => {
       if (error) {
         Alert.alert("Error", error.message);
       } else {
-        Alert.alert("Success");
+        // Alert.alert("Success");
         console.log(data);
         // handleOnboardingComplete();
       }

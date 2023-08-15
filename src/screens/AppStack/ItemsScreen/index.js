@@ -423,7 +423,7 @@ const ItemsScreen = () => {
                   }
                   setCameraModal(false);
                   setModalView(true);
-                  Alert.alert("photo taken", JSON.stringify(photo));
+                  // Alert.alert("photo taken", JSON.stringify(photo));
                 }}
               ></TouchableOpacity>
             </View>

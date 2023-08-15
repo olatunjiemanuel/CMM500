@@ -36,7 +36,7 @@ const Onboarding_Company = ({ navigation, onComplete }) => {
       if (error) {
         Alert.alert("Error", error.message);
       } else {
-        Alert.alert("Success");
+        // Alert.alert("Success");
       }
     } catch (error) {
       console.log(error.message);

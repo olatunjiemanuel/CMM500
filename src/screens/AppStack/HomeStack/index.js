@@ -215,19 +215,19 @@ const HomeStack = () => {
           <View>
             <Text style={styles.summaryTitleTxt}>Items</Text>
             <Text style={styles.summarySubTxt}>
-              {totalItems ? totalItems : Loading()}
+              {totalItems ? totalItems : "-"}
             </Text>
           </View>
           <View>
             <Text style={styles.summaryTitleTxt}>Total Qty</Text>
             <Text style={styles.summarySubTxt}>
-              {totalQuantity ? totalQuantity : Loading()}
+              {totalQuantity ? totalQuantity : "-"}
             </Text>
           </View>
           <View>
             <Text style={styles.summaryTitleTxt}>Total Value</Text>
             <Text style={styles.summarySubTxt}>
-              £ {TotalValue ? TotalValue : Loading()}
+              £ {TotalValue ? TotalValue : "-"}
             </Text>
           </View>
         </View>

@@ -392,7 +392,7 @@ const ItemView = ({ navigation }) => {
                   }
                   setCameraModal(false);
                   setEditModal(true);
-                  Alert.alert("photo taken", JSON.stringify(photo));
+                  // Alert.alert("photo taken", JSON.stringify(photo));
                 }}
               ></TouchableOpacity>
             </View>

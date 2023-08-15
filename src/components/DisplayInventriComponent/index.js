@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     justifyContent: "center",
-    backgroundColor: "red",
+    backgroundColor: "grey",
     alignItems: "center",
   },
   nameCntnr: { width: 300 },
